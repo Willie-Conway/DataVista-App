@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataVista | Comprehensive Data Analysis Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .data-table {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        /* Dark mode styles */
+        .dark {
+            --primary: #6366f1;
+            --secondary: #10b981;
+            --dark: #f8fafc;
+            --light: #1e293b;
+        }
+        
+        .dark body {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        
+        .dark .sidebar {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+        
+        .dark .card {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+        
+        .dark input,
+        .dark select,
+        .dark textarea {
+            background-color: #334155;
+            color: #f8fafc;
+            border-color: #475569;
+        }
+    </style>
+</head>
+<body class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="sidebar w-64 bg-white shadow-lg flex flex-col">
+        <div class="p-4 flex items-center space-x-3 border-b">
+            <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
+                <i class="fas fa-chart-line text-indigo-600"></i>
+            </div>
+            <h1 class="text-xl font-bold text-gray-800">DataVista</h1>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto p-4 space-y-1">
+            <div class="text-xs uppercase text-gray-500 font-semibold mb-2 px-2">Main</div>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg bg-indigo-50 text-indigo-700 font-medium" data-tab="dashboard">
+                <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+            </a>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100" data-tab="data-load">
+                <i class="fas fa-database mr-2"></i> Data Loading
+            </a>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100" data-tab="data-clean">
+                <i class="fas fa-broom mr-2"></i> Data Cleaning
+            </a>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100" data-tab="preprocessing">
+                <i class="fas fa-cogs mr-2"></i> Preprocessing
+            </a>
+            
+            <div class="text-xs uppercase text-gray-500 font-semibold mt-6 mb-2 px-2">Analysis</div>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100" data-tab="stats">
+                <i class="fas fa-calculator mr-2"></i> Statistics
+            </a>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100" data-tab="ml">
+                <i class="fas fa-robot mr-2"></i> Machine Learning
+            </a>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100" data-tab="hypothesis">
+                <i class="fas fa-flask mr-2"></i> Hypothesis Testing
+            </a>
+            
+            <div class="text-xs uppercase text-gray-500 font-semibold mt-6 mb-2 px-2">Visualization</div>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100" data-tab="visualization">
+                <i class="fas fa-chart-bar mr-2"></i> Charts & Graphs
+            </a>
+        </div>
+        
+        <div class="p-4 border-t">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center">
+                    <i class="fas fa-user text-indigo-600"></i>
+                </div>
+                <div>
+                    <div class="font-medium text-sm">Analyst User</div>
+                    <div class="text-xs text-gray-500">Premium Member</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 overflow-y-auto">
+        <!-- Header -->
+        <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-gray-800" id="page-title">Dashboard</h2>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-64 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400 dark:text-gray-300"></i>
+                </div>
+                <button id="dark-mode-toggle" class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <div class="relative group">
+                    <button class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block dark:bg-gray-800">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Settings</a>
+                        <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Tab Contents -->
+        <main class="p-6">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <!-- Top Metrics -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="card bg-white rounded-xl shadow p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Datasets Loaded</p>
+                                <h3 class="text-2xl font-bold mt-1">3</h3>
+                            </div>
+                            <div class="p-3 rounded-lg bg-indigo-100 text-indigo-600">
+                                <i class="fas fa-database"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1">
+                                <span>Storage Used</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar bg-gray-200 rounded-full">
+                                <div class="progress-bar bg-indigo-600 rounded-full h-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card bg-white rounded-xl shadow p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Models Trained</p>
+                                <h3 class="text-2xl font-bold mt-1">7</h3>
+                            </div>
+                            <div class="p-3 rounded-lg bg-green-100 text-green-600">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1">
+                                <span>Accuracy</span>
+                                <span>92% Avg</span>
+                            </div>
+                            <div class="progress-bar bg-gray-200 rounded-full">
+                                <div class="progress-bar bg-green-500 rounded-full h-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card bg-white rounded-xl shadow p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Visualizations</p>
+                                <h3 class="text-2xl font-bold mt-1">14</h3>
+                            </div>
+                            <div class="p-3 rounded-lg bg-blue-100 text-blue-600">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1">
+                                <span>This Week</span>
+                                <span>+3 New</span>
+                            </div>
+                            <div class="progress-bar bg-gray-200 rounded-full">
+                                <div class="progress-bar bg-blue-500 rounded-full h-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card bg-white rounded-xl shadow p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Tasks Completed</p>
+                                <h3 class="text-2xl font-bold mt-1">18/24</h3>
+                            </div>
+                            <div class="p-3 rounded-lg bg-purple-100 text-purple-600">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1">
+                                <span>Progress</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar bg-gray-200 rounded-full">
+                                <div class="progress-bar bg-purple-500 rounded-full h-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Top Metrics -->
+
+                <!-- Activity & Quick Insights -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Recent Activity -->
+                    <div class="card bg-white rounded-xl shadow p-6 lg:col-span-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-semibold text-lg">Recent Activity</h3>
+                            <button class="text-sm text-indigo-600 hover:text-indigo-800">View All</button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600 mr-3">
+                                    <i class="fas fa-file-import"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Imported <span class="text-indigo-700">Sales Data Q3</span></p>
+                                    <p class="text-sm text-gray-500">2 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="p-2 rounded-lg bg-green-100 text-green-600 mr-3">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Trained <span class="text-green-700">Random Forest</span> model</p>
+                                    <p class="text-sm text-gray-500">5 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="p-2 rounded-lg bg-blue-100 text-blue-600 mr-3">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Created <span class="text-blue-700">sales trend visualization</span></p>
+                                    <p class="text-sm text-gray-500">Yesterday</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="p-2 rounded-lg bg-purple-100 text-purple-600 mr-3">
+                                    <i class="fas fa-broom"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Cleaned <span class="text-purple-700">customer demographics</span> data</p>
+                                    <p class="text-sm text-gray-500">2 days ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Quick Insights -->
+                    <div class="card bg-white rounded-xl shadow p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-semibold text-lg">Quick Insights</h3>
+                            <button class="text-sm text-indigo-600 hover:text-indigo-800">Refresh</button>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <span class="p-2 rounded-full bg-green-100 text-green-600 mr-3"><i class="fas fa-arrow-up"></i></span>
+                                <span>Customer retention increased by <b>5%</b> this month</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="p-2 rounded-full bg-blue-100 text-blue-600 mr-3"><i class="fas fa-chart-line"></i></span>
+                                <span>Sales peaked on <b>May 15</b></span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="p-2 rounded-full bg-yellow-100 text-yellow-600 mr-3"><i class="fas fa-exclamation-circle"></i></span>
+                                <span><b>2</b> datasets need cleaning</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="p-2 rounded-full bg-purple-100 text-purple-600 mr-3"><i class="fas fa-lightbulb"></i></span>
+                                <span>Try <b>PCA</b> for dimensionality reduction</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End Activity & Quick Insights -->
+
+                <!-- Mini Charts -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="card bg-white rounded-xl shadow p-6">
+                        <h4 class="font-semibold mb-4">Dataset Growth</h4>
+                        <div class="chart-container">
+                            <!-- Placeholder for a chart (replace with Chart.js or similar in production) -->
+                            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['Jan','Feb','Mar','Apr','May'],datasets:[{label:'Datasets',data:[1,2,2,3,3],borderColor:'%234f46e5',fill:false}]}}" alt="Dataset Growth Chart" class="w-full h-48 object-contain" />
+                        </div>
+                    </div>
+                    <div class="card bg-white rounded-xl shadow p-6">
+                        <h4 class="font-semibold mb-4">Model Accuracy</h4>
+                        <div class="chart-container">
+                            <!-- Placeholder for a chart -->
+                            <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['LR','RF','SVM'],datasets:[{label:'Accuracy',data:[0.89,0.94,0.91],backgroundColor:['%2310b981','%234f46e5','%23f59e42']}]},options:{scales:{y:{min:0,max:1}}}}" alt="Model Accuracy Chart" class="w-full h-48 object-contain" />
+                        </div>
+                    </div>
+                </div>
+                <!-- End Mini Charts -->
+            </div>
+            
+    <!-- Data Loading Tab -->
+    <div id="data-load" class="tab-content">
+        <div class="card bg-white rounded-xl shadow p-6 mb-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600 mr-3">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3 class="font-semibold text-lg">Data Loading</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+                Import your datasets from local files, URLs, or explore sample data to get started quickly.
+            </p>
+            <!-- Upload Tabs -->
+            <div>
+                <div class="flex border-b mb-4">
+                    <button class="upload-tab-btn px-4 py-2 text-indigo-700 border-b-2 border-indigo-600 font-semibold focus:outline-none" data-upload-tab="local">
+                        <i class="fas fa-upload mr-2"></i>Upload File
+                    </button>
+                    <button class="upload-tab-btn px-4 py-2 text-gray-600 hover:text-indigo-700 focus:outline-none" data-upload-tab="url">
+                        <i class="fas fa-link mr-2"></i>Import from URL
+                    </button>
+                    <button class="upload-tab-btn px-4 py-2 text-gray-600 hover:text-indigo-700 focus:outline-none" data-upload-tab="sample">
+                        <i class="fas fa-folder-open mr-2"></i>Sample Data
+                    </button>
+                </div>
+                <div id="upload-tab-local" class="upload-tab-content">
+                    <form class="space-y-4">
+                        <label class="block text-sm font-medium text-gray-700">Select file (.csv, .xlsx, .json):</label>
+                        <input type="file" class="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-2" />
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" type="button">
+                            <i class="fas fa-upload mr-2"></i>Upload
+                        </button>
+                    </form>
+                </div>
+                <div id="upload-tab-url" class="upload-tab-content hidden">
+                    <form class="space-y-4">
+                        <label class="block text-sm font-medium text-gray-700">Paste dataset URL:</label>
+                        <input type="text" placeholder="https://example.com/data.csv" class="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-2" />
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" type="button">
+                            <i class="fas fa-link mr-2"></i>Import
+                        </button>
+                    </form>
+                </div>
+                <div id="upload-tab-sample" class="upload-tab-content hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Choose a sample dataset:</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button class="bg-gray-100 hover:bg-indigo-100 text-gray-700 font-medium px-4 py-2 rounded flex items-center">
+                            <i class="fas fa-table mr-2"></i> Iris (CSV)
+                        </button>
+                        <button class="bg-gray-100 hover:bg-indigo-100 text-gray-700 font-medium px-4 py-2 rounded flex items-center">
+                            <i class="fas fa-table mr-2"></i> Titanic (CSV)
+                        </button>
+                        <button class="bg-gray-100 hover:bg-indigo-100 text-gray-700 font-medium px-4 py-2 rounded flex items-center">
+                            <i class="fas fa-table mr-2"></i> MNIST (CSV)
+                        </button>
+                        <button class="bg-gray-100 hover:bg-indigo-100 text-gray-700 font-medium px-4 py-2 rounded flex items-center">
+                            <i class="fas fa-table mr-2"></i> Wine Quality (CSV)
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Progress Bar (hidden by default, show when uploading) -->
+            <div id="upload-progress" class="mt-6 hidden">
+                <div class="flex justify-between text-sm text-gray-500 mb-1">
+                    <span>Uploading...</span>
+                    <span id="upload-progress-percent">0%</span>
+                </div>
+                <div class="progress-bar bg-gray-200 rounded-full">
+                    <div class="progress-bar bg-indigo-600 rounded-full h-full" style="width: 0%" id="upload-progress-bar"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Recent Datasets -->
+        <div class="card bg-white rounded-xl shadow p-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 rounded-lg bg-green-100 text-green-600 mr-3">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h4 class="font-semibold text-lg">Recently Loaded Datasets</h4>
+            </div>
+            <ul class="divide-y divide-gray-200">
+                <li class="flex items-center justify-between py-3">
+                    <div class="flex items-center">
+                        <i class="fas fa-file-csv text-indigo-500 mr-3"></i>
+                        <span class="text-gray-700 font-medium">Sales Data Q3.csv</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs text-gray-500">CSV</span>
+                        <button class="text-indigo-600 hover:text-indigo-800 text-sm"><i class="fas fa-eye mr-1"></i>Preview</button>
+                        <button class="text-red-500 hover:text-red-700 text-sm"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </li>
+                <li class="flex items-center justify-between py-3">
+                    <div class="flex items-center">
+                        <i class="fas fa-file-excel text-green-500 mr-3"></i>
+                        <span class="text-gray-700 font-medium">Customer Demographics.xlsx</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs text-gray-500">Excel</span>
+                        <button class="text-indigo-600 hover:text-indigo-800 text-sm"><i class="fas fa-eye mr-1"></i>Preview</button>
+                        <button class="text-red-500 hover:text-red-700 text-sm"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </li>
+                <li class="flex items-center justify-between py-3">
+                    <div class="flex items-center">
+                        <i class="fas fa-file-code text-yellow-500 mr-3"></i>
+                        <span class="text-gray-700 font-medium">Survey_Responses.json</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs text-gray-500">JSON</span>
+                        <button class="text-indigo-600 hover:text-indigo-800 text-sm"><i class="fas fa-eye mr-1"></i>Preview</button>
+                        <button class="text-red-500 hover:text-red-700 text-sm"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            // Simple tab switcher for upload options
+            document.querySelectorAll('.upload-tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.upload-tab-btn').forEach(b => b.classList.remove('text-indigo-700', 'border-b-2', 'border-indigo-600', 'font-semibold'));
+                    this.classList.add('text-indigo-700', 'border-b-2', 'border-indigo-600', 'font-semibold');
+                    document.querySelectorAll('.upload-tab-content').forEach(tab => tab.classList.add('hidden'));
+                    document.getElementById('upload-tab-' + this.dataset.uploadTab).classList.remove('hidden');
+                });
+            });
+            // Optionally: Add JS for progress bar, preview, and delete actions
+           // --- Upload Progress Simulation ---
+            document.querySelectorAll('#upload-tab-local button, #upload-tab-url button').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const progressBar = document.getElementById('upload-progress');
+                    const progressBarFill = document.getElementById('upload-progress-bar');
+                    const progressPercent = document.getElementById('upload-progress-percent');
+                    progressBar.classList.remove('hidden');
+                    progressBarFill.style.width = '0%';
+                    progressPercent.textContent = '0%';
+                    let percent = 0;
+                    const interval = setInterval(() => {
+                        percent += Math.floor(Math.random() * 15) + 5;
+                        if (percent > 100) percent = 100;
+                        progressBarFill.style.width = percent + '%';
+                        progressPercent.textContent = percent + '%';
+                        if (percent >= 100) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                progressBar.classList.add('hidden');
+                                progressBarFill.style.width = '0%';
+                                progressPercent.textContent = '0%';
+                                alert('Upload complete! (Simulated)');
+                            }, 800);
+                        }
+                    }, 300);
+                });
+            });
+
+            // --- Preview Modal (Simple) ---
+            function showPreviewModal(fileName) {
+                // Simple modal using alert, replace with a custom modal if desired
+                alert('Previewing: ' + fileName + '\n\n(Sample preview: Only available in full implementation.)');
+            }
+            document.querySelectorAll('.fa-eye').forEach(btn => {
+                btn.parentElement.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const fileName = this.closest('li').querySelector('span.font-medium').textContent;
+                    showPreviewModal(fileName);
+                });
+            });
+
+            // --- Delete Dataset (with confirmation) ---
+            document.querySelectorAll('.fa-trash-alt').forEach(btn => {
+                btn.parentElement.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const li = this.closest('li');
+                    const fileName = li.querySelector('span.font-medium').textContent;
+                    if (confirm('Are you sure you want to delete "' + fileName + '"?')) {
+                        li.style.transition = 'opacity 0.3s';
+                        li.style.opacity = 0;
+                        setTimeout(() => li.remove(), 300);
+                    }
+                });
+            });
+
+        </script>
+        <script>
+            document.querySelectorAll('#upload-tab-local button, #upload-tab-url button').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const progressBar = document.getElementById('upload-progress');
+                    const progressBarFill = document.getElementById('upload-progress-bar');
+                    const progressPercent = document.getElementById('upload-progress-percent');
+                    if (!progressBar || !progressBarFill || !progressPercent) return;
+                    progressBar.classList.remove('hidden');
+                    progressBarFill.style.width = '0%';
+                    progressPercent.textContent = '0%';
+                    let percent = 0;
+                    const interval = setInterval(() => {
+                        percent += Math.floor(Math.random() * 15) + 5;
+                        if (percent > 100) percent = 100;
+                        progressBarFill.style.width = percent + '%';
+                        progressPercent.textContent = percent + '%';
+                        if (percent >= 100) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                progressBar.classList.add('hidden');
+                                progressBarFill.style.width = '0%';
+                                progressPercent.textContent = '0%';
+                                alert('Upload complete! (Simulated)');
+                            }, 800);
+                        }
+                    }, 300);
+                });
+            });
+            document.querySelectorAll('.fa-eye').forEach(btn => {
+                btn.parentElement.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const fileName = this.closest('li').querySelector('span.font-medium').textContent;
+                    alert('Previewing: ' + fileName + '\n\n(Sample preview: Only available in full implementation.)');
+                });
+            });
+            document.querySelectorAll('.fa-trash-alt').forEach(btn => {
+                btn.parentElement.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const li = this.closest('li');
+                    const fileName = li.querySelector('span.font-medium').textContent;
+                    if (confirm('Are you sure you want to delete "' + fileName + '"?')) {
+                        li.style.transition = 'opacity 0.3s';
+                        li.style.opacity = 0;
+                        setTimeout(() => li.remove(), 300);
+                    }
+                });
+            });
+        </script>
+
+    </div>
+
+            
+    <!-- Other tabs would go here (data-clean, preprocessing, stats, ml, hypothesis, visualization) -->
+    <!-- Data Cleaning Tab -->
+    <div id="data-clean" class="tab-content">
+        <div class="card bg-white rounded-xl shadow p-6 mb-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 rounded-lg bg-purple-100 text-purple-600 mr-3">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <h3 class="font-semibold text-lg">Data Cleaning</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+                Clean your datasets by handling missing values, removing duplicates, and correcting data types for optimal analysis.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Missing Values -->
+                <div class="bg-indigo-50 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 text-indigo-700"><i class="fas fa-question-circle mr-2"></i>Handle Missing Values</h4>
+                    <p class="text-sm text-gray-600 mb-2">Choose how to process missing data:</p>
+                    <select class="w-full p-2 rounded border border-gray-300 mb-2">
+                        <option>Remove Rows</option>
+                        <option>Impute with Mean</option>
+                        <option>Impute with Median</option>
+                        <option>Impute with Mode</option>
+                    </select>
+                    <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Apply</button>
+                </div>
+                <!-- Duplicates -->
+                <div class="bg-green-50 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 text-green-700"><i class="fas fa-copy mr-2"></i>Remove Duplicates</h4>
+                    <p class="text-sm text-gray-600 mb-2">Detect and remove duplicate entries in your dataset.</p>
+                    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Remove Duplicates</button>
+                </div>
+                <!-- Data Types -->
+                <div class="bg-yellow-50 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 text-yellow-700"><i class="fas fa-exchange-alt mr-2"></i>Fix Data Types</h4>
+                    <p class="text-sm text-gray-600 mb-2">Convert columns to the correct data type (e.g., numeric, categorical).</p>
+                    <button class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">Fix Data Types</button>
+                </div>
+                <!-- Outlier Detection -->
+                <div class="bg-red-50 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 text-red-700"><i class="fas fa-exclamation-triangle mr-2"></i>Detect Outliers</h4>
+                    <p class="text-sm text-gray-600 mb-2">Identify and handle outliers in your data.</p>
+                    <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Detect Outliers</button>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-white rounded-xl shadow p-6">
+            <h4 class="font-semibold mb-4">Preview Cleaned Data</h4>
+            <div class="data-table overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Column</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Missing</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Unique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example rows -->
+                        <tr>
+                            <td class="px-4 py-2 text-sm text-gray-700">CustomerID</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Integer</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">0</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">1500</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 text-sm text-gray-700">Age</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Integer</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">12</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">45</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 text-sm text-gray-700">Gender</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Category</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">0</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">2</td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preprocessing Tab -->
+    <div id="preprocessing" class="tab-content">
+        <div class="card bg-white rounded-xl shadow p-6 mb-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600 mr-3">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3 class="font-semibold text-lg">Preprocessing</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+                Prepare your data for analysis and modeling with essential preprocessing steps like scaling, encoding, and feature engineering.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Scaling -->
+                <div class="bg-blue-50 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 text-blue-700"><i class="fas fa-sliders-h mr-2"></i>Scaling & Normalization</h4>
+                    <p class="text-sm text-gray-600 mb-2">Standardize or normalize numeric features for better model performance.</p>
+                    <select class="w-full p-2 rounded border border-gray-300 mb-2">
+                        <option>Standard Scaler</option>
+                        <option>Min-Max Scaler</option>
+                        <option>Robust Scaler</option>
+                    </select>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Apply Scaling</button>
+                </div>
+                <!-- Encoding -->
+                <div class="bg-green-50 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 text-green-700"><i class="fas fa-code mr-2"></i>Encoding Categorical Variables</h4>
+                    <p class="text-sm text-gray-600 mb-2">Convert categorical data into numeric format for algorithms.</p>
+                    <select class="w-full p-2 rounded border border-gray-300 mb-2">
+                        <option>One-Hot Encoding</option>
+                        <option>Label Encoding</option>
+                        <option>Ordinal Encoding</option>
+                    </select>
+                    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Apply Encoding</button>
+                </div>
+                <!-- Feature Engineering -->
+                <div class="bg-yellow-50 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 text-yellow-700"><i class="fas fa-lightbulb mr-2"></i>Feature Engineering</h4>
+                    <p class="text-sm text-gray-600 mb-2">Create new features or transform existing ones to improve model accuracy.</p>
+                    <button class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">Add Feature</button>
+                </div>
+                <!-- Dimensionality Reduction -->
+                <div class="bg-purple-50 rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 text-purple-700"><i class="fas fa-compress-arrows-alt mr-2"></i>Dimensionality Reduction</h4>
+                    <p class="text-sm text-gray-600 mb-2">Reduce the number of features using techniques like PCA.</p>
+                    <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Apply PCA</button>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-white rounded-xl shadow p-6">
+            <h4 class="font-semibold mb-4">Preview Preprocessed Data</h4>
+            <div class="data-table overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Feature</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Transformed</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example rows -->
+                        <tr>
+                            <td class="px-4 py-2 text-sm text-gray-700">Age</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Numeric</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Standard Scaled</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Ready for modeling</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 text-sm text-gray-700">Gender</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Categorical</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">One-Hot Encoded</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">3 columns created</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 text-sm text-gray-700">Income</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Numeric</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Min-Max Scaled</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">Normalized</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Tab -->
+    <div id="stats" class="tab-content">
+        <div class="card bg-white rounded-xl shadow p-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 rounded-lg bg-blue-100 text-blue-600 mr-3">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3 class="font-semibold text-lg">Statistics</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+                View descriptive statistics and summary metrics for your dataset.
+            </p>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Feature</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Mean</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Median</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Std</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Min</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Max</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="px-4 py-2 text-sm text-gray-700">Age</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">35.2</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">34</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">7.8</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">18</td>
+                            <td class="px-4 py-2 text-sm text-gray-700">60</td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Machine Learning Tab -->
+    <div id="ml" class="tab-content">
+        <div class="card bg-white rounded-xl shadow p-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 rounded-lg bg-green-100 text-green-600 mr-3">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3 class="font-semibold text-lg">Machine Learning</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+                Train and evaluate machine learning models on your data.
+            </p>
+            <form class="space-y-4">
+                <select class="w-full p-2 rounded border border-gray-300">
+                    <option>Linear Regression</option>
+                    <option>Random Forest</option>
+                    <option>Logistic Regression</option>
+                    <option>K-Means Clustering</option>
+                </select>
+                <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Train Model</button>
+            </form>
+            <div class="mt-6">
+                <h4 class="font-semibold mb-2">Model Results</h4>
+                <ul class="list-disc ml-6 text-gray-600">
+                    <li>Random Forest: 94% Accuracy</li>
+                    <li>Linear Regression: RMSE 3.2</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hypothesis Testing Tab -->
+    <div id="hypothesis" class="tab-content">
+        <div class="card bg-white rounded-xl shadow p-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 rounded-lg bg-purple-100 text-purple-600 mr-3">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <h3 class="font-semibold text-lg">Hypothesis Testing</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+                Conduct statistical hypothesis tests to validate your assumptions.
+            </p>
+            <form class="space-y-4">
+                <select class="w-full p-2 rounded border border-gray-300">
+                    <option>T-test</option>
+                    <option>Chi-square Test</option>
+                    <option>ANOVA</option>
+                </select>
+                <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Run Test</button>
+            </form>
+            <div class="mt-6">
+                <h4 class="font-semibold mb-2">Results</h4>
+                <ul class="list-disc ml-6 text-gray-600">
+                    <li>T-test: p = 0.031 (Significant)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visualization Tab -->
+    <div id="visualization" class="tab-content">
+        <div class="card bg-white rounded-xl shadow p-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 rounded-lg bg-yellow-100 text-yellow-600 mr-3">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3 class="font-semibold text-lg">Charts & Graphs</h3>
+            </div>
+            <p class="text-gray-600 mb-4">
+                Create and explore visualizations to better understand your data.
+            </p>
+            <form class="space-y-4">
+                <select class="w-full p-2 rounded border border-gray-300">
+                    <option>Bar Chart</option>
+                    <option>Line Chart</option>
+                    <option>Pie Chart</option>
+                    <option>Scatter Plot</option>
+                </select>
+                <button class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">Generate Chart</button>
+            </form>
+            <div class="mt-6">
+                <h4 class="font-semibold mb-2">Recent Visualizations</h4>
+                <ul class="list-disc ml-6 text-gray-600">
+                    <li>Sales by Region (Bar Chart)</li>
+                    <li>Customer Age Distribution (Histogram)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+            <!-- Each would have similar structure but with content specific to their purpose -->
+            
+        </main>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-96 dark:bg-gray-800">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold dark:text-white">Login to DataVista</h3>
+                <button id="close-login-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Email</label>
+                    <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Password</label>
+                    <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Login
+                </button>
+            </form>
+            <div class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+                Don't have an account? <a href="#" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const html = document.documentElement;
+        
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            html.classList.add('dark');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+            darkModeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+        
+        // Login/logout functionality
+        const loginModal = document.getElementById('login-modal');
+        const closeLoginModal = document.getElementById('close-login-modal');
+        const loginForm = document.getElementById('login-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Show login modal (would be triggered when user needs to login)
+        function showLoginModal() {
+            loginModal.classList.remove('hidden');
+        }
+        
+        closeLoginModal.addEventListener('click', () => {
+            loginModal.classList.add('hidden');
+        });
+        
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Here you would handle the actual login logic
+            loginModal.classList.add('hidden');
+            // Update UI to show logged in state
+        });
+        
+        logoutBtn.addEventListener('click', () => {
+            // Here you would handle logout logic
+            showLoginModal();
+        });
+        
+        // Tab switching functionality
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const pageTitle = document.getElementById('page-title');
+        
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tabId = link.getAttribute('data-tab');
+                
+                // Update active tab
+                tabLinks.forEach(tab => tab.classList.remove('bg-indigo-50', 'text-indigo-700'));
+                tabLinks.forEach(tab => tab.classList.add('text-gray-700', 'hover:bg-gray-100'));
+                link.classList.remove('text-gray-700', 'hover:bg-gray-100');
+                link.classList.add('bg-indigo-50', 'text-indigo-700');
+                
+                // Show selected tab content
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+                
+                // Update page title
+                pageTitle.textContent = link.textContent.trim();
+            });
+        });
+        
+        // Initialize - show login modal if not authenticated
+        // --- Authentication Logic for Login Modal ---
+
+        // Simple authentication check (replace with real auth in production)
+        function isAuthenticated() {
+            return !!localStorage.getItem('datavista-authenticated');
+        }
+
+        // Show login modal and block background
+        function showLoginModal() {
+            loginModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        // Hide login modal and unblock background
+        function hideLoginModal() {
+            loginModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // On page load, check authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!isAuthenticated()) {
+                showLoginModal();
+            }
+        });
+
+        // Handle login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = loginForm.querySelector('input[type="email"]').value.trim();
+            const password = loginForm.querySelector('input[type="password"]').value.trim();
+            // Simple demo: accept any non-empty credentials
+            if (email && password) {
+                localStorage.setItem('datavista-authenticated', '1');
+                hideLoginModal();
+                // Optionally reload or re-initialize your app here
+                location.reload();
+            } else {
+                // Show error (optional)
+                alert('Please enter both email and password.');
+            }
+        });
+
+        // Optional: Logout button clears auth and shows modal again
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('datavista-authenticated');
+                showLoginModal();
+            });
+        }
+
+        // Optionally: Prevent closing the modal if not authenticated
+        closeLoginModal.addEventListener('click', function() {
+            if (!isAuthenticated()) {
+                // Do nothing or show a message
+                alert('You must login to use DataVista.');
+            } else {
+                hideLoginModal();
+            }
+        });
+
+        // showLoginModal();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select all tab links and tab content sections
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const pageTitle = document.getElementById('page-title');
+
+            // Tab name to title mapping (customize as needed)
+            const tabTitles = {
+                'dashboard': 'Dashboard',
+                'data-load': 'Data Loading',
+                'data-clean': 'Data Cleaning',
+                'preprocessing': 'Preprocessing',
+                'stats': 'Statistics',
+                'ml': 'Machine Learning',
+                'hypothesis': 'Hypothesis Testing',
+                'visualization': 'Charts & Graphs'
+            };
+
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tab = this.getAttribute('data-tab');
+
+                    // Remove active from all links and add to clicked
+                    tabLinks.forEach(l => l.classList.remove('bg-indigo-50', 'text-indigo-700', 'font-medium'));
+                    this.classList.add('bg-indigo-50', 'text-indigo-700', 'font-medium');
+
+                    // Hide all tab contents and show the selected one
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    const activeTab = document.getElementById(tab);
+                    if (activeTab) activeTab.classList.add('active');
+
+                    // Update page title if available
+                    if (pageTitle && tabTitles[tab]) {
+                        pageTitle.textContent = tabTitles[tab];
+                    }
+                });
+            });
+
+            // Optional: Activate the first tab by default on load
+            let initialTab = document.querySelector('.tab-link.bg-indigo-50') || tabLinks[0];
+            if (initialTab) initialTab.click();
+        });
+</script>
+
+
+
+</body>
+</html>
