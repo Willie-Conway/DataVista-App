@@ -108,21 +108,43 @@
             border-color: #334155;
         }
         
-        /* Ensure dropdown menus work in dark mode */
-        .dark .group:hover .group-hover\:block {
-            display: block;
-            background-color: #1e293b;
-            border: 1px solid #334155;
+        /* Profile image styling */
+        .profile-img {
+            width: 36px;
+            height: 36px;
+            object-fit: cover;
+            border-radius: 50%;
         }
         
-        /* Fix for upload tabs in dark mode */
-        .dark .upload-tab-btn {
-            color: #94a3b8;
+        /* Settings form styling */
+        .settings-form .form-group {
+            margin-bottom: 1.5rem;
         }
         
-        .dark .upload-tab-btn.border-indigo-600 {
-            color: #818cf8;
-            border-color: #818cf8;
+        /* File upload styling */
+        .file-upload {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        /* Animation for loading */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
         }
     </style>
 </head>
@@ -161,21 +183,29 @@
             <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" data-tab="hypothesis">
                 <i class="fas fa-flask mr-2"></i> Hypothesis Testing
             </a>
-            
-            <div class="text-xs uppercase text-gray-500 font-semibold mt-6 mb-2 px-2 dark:text-gray-400">Visualization</div>
+
+             <div class="text-xs uppercase text-gray-500 font-semibold mt-6 mb-2 px-2 dark:text-gray-400">Visualization</div>
             <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" data-tab="visualization">
                 <i class="fas fa-chart-bar mr-2"></i> Charts & Graphs
+            </a>
+            
+            <div class="text-xs uppercase text-gray-500 font-semibold mt-6 mb-2 px-2 dark:text-gray-400">User</div>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" data-tab="profile">
+                <i class="fas fa-user mr-2"></i> Profile
+            </a>
+            <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" data-tab="settings">
+                <i class="fas fa-cog mr-2"></i> Settings
             </a>
         </div>
         
         <div class="p-4 border-t dark:border-gray-700">
             <div class="flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center dark:bg-indigo-900">
-                    <i class="fas fa-user text-indigo-600 dark:text-indigo-300"></i>
+                <div id="profile-img-container" class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center dark:bg-indigo-900 overflow-hidden">
+                    <i class="fas fa-user text-indigo-600 dark:text-indigo-300" id="profile-icon"></i>
                 </div>
                 <div>
-                    <div class="font-medium text-sm dark:text-white">Analyst User</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">Premium Member</div>
+                    <div class="font-medium text-sm dark:text-white" id="username-display">Guest User</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400" id="user-role-display">Guest</div>
                 </div>
             </div>
         </div>
@@ -197,15 +227,16 @@
                 </button>
                 <button class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
                     <i class="fas fa-bell"></i>
+                    <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
                 </button>
                 <div class="relative group">
-                    <button class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
-                        <i class="fas fa-user"></i>
+                    <button id="user-menu-button" class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                        <i class="fas fa-ellipsis-v"></i>
                     </button>
                     <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block dark:bg-gray-800 dark:border dark:border-gray-700">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Settings</a>
-                        <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">Logout</a>
+                        <a href="#" class="tab-link block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" data-tab="profile"><i class="fas fa-user mr-2"></i>Profile</a>
+                        <a href="#" class="tab-link block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" data-tab="settings"><i class="fas fa-cog mr-2"></i>Settings</a>
+                        <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
                     </div>
                 </div>
             </div>
@@ -849,125 +880,320 @@
         </main>
     </div>
 
-    <!-- Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+
+            <!-- Profile Tab -->
+            <div id="profile" class="tab-content">
+                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+                    <div class="flex items-center mb-6">
+                        <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600 mr-3 dark:bg-indigo-900 dark:text-indigo-300">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg dark:text-white">Profile</h3>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="w-full md:w-1/3">
+                            <div class="flex flex-col items-center">
+                                <div class="relative mb-4">
+                                    <div id="profile-preview" class="w-32 h-32 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
+                                        <i class="fas fa-user text-4xl text-gray-400 dark:text-gray-500" id="profile-placeholder"></i>
+                                    </div>
+                                    <div class="file-upload mt-4">
+                                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800 w-full">
+                                            <i class="fas fa-upload mr-2"></i>Upload Photo
+                                        </button>
+                                        <input type="file" id="profile-upload" class="file-upload-input" accept="image/*">
+                                    </div>
+                                    <div class="text-center mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                        JPG, GIF or PNG. Max size 2MB
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="w-full md:w-2/3">
+                            <form id="profile-form" class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">First Name</label>
+                                        <input type="text" id="first-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Last Name</label>
+                                        <input type="text" id="last-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Email</label>
+                                    <input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Bio</label>
+                                    <textarea id="bio" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+                    <div class="flex items-center mb-6">
+                        <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600 mr-3 dark:bg-indigo-900 dark:text-indigo-300">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg dark:text-white">Settings</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="md:col-span-2">
+                            <form id="settings-form" class="space-y-6">
+                                <div class="form-group">
+                                    <h4 class="font-semibold text-md mb-4 dark:text-white">Account Settings</h4>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Username</label>
+                                            <input type="text" id="username" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Current Password</label>
+                                            <input type="password" id="current-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">New Password</label>
+                                            <input type="password" id="new-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Confirm New Password</label>
+                                            <input type="password" id="confirm-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <h4 class="font-semibold text-md mb-4 dark:text-white">Notification Preferences</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="email-notifications" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="email-notifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Email Notifications</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="push-notifications" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600" checked>
+                                            <label for="push-notifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Push Notifications</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="sms-notifications" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="sms-notifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">SMS Notifications</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-end">
+                                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                                        Save Settings
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="md:col-span-1">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h4 class="font-semibold text-md mb-4 dark:text-white">Account Security</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Two-factor authentication adds an extra layer of security to your account.</p>
+                                        <button class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800">
+                                            Enable 2FA
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Connected devices and active sessions.</p>
+                                        <button class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">
+                                            Manage Devices
+                                        </button>
+                                    </div>
+                                    <div class="pt-4 border-t dark:border-gray-600">
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Permanently delete your account and all associated data.</p>
+                                        <button id="delete-account-btn" class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800">
+                                            Delete Account
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Auth Modals -->
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg shadow-xl p-6 w-96 dark:bg-gray-800">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold dark:text-white">Login to DataVista</h3>
-                <button id="close-login-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+                <h3 class="text-xl font-semibold dark:text-white" id="auth-modal-title">Login to DataVista</h3>
+                <button id="close-auth-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="login-form">
+            
+            <div id="auth-tabs" class="flex border-b mb-4 dark:border-gray-700">
+                <button class="auth-tab-btn px-4 py-2 text-indigo-700 border-b-2 border-indigo-600 font-semibold focus:outline-none dark:text-indigo-400 dark:border-indigo-400" data-auth-tab="login">
+                    Login
+                </button>
+                <button class="auth-tab-btn px-4 py-2 text-gray-600 hover:text-indigo-700 focus:outline-none dark:text-gray-400 dark:hover:text-indigo-400" data-auth-tab="signup">
+                    Sign Up
+                </button>
+            </div>
+            
+            <form id="login-form" class="auth-form">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Email</label>
-                    <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                    <input type="email" id="login-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Password</label>
-                    <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                    <input type="password" id="login-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
                 </div>
                 <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-700 dark:hover:bg-indigo-800">
                     Login
                 </button>
+                <div class="mt-2 text-right">
+                    <a href="#" id="forgot-password-link" class="text-sm text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300">Forgot password?</a>
+                </div>
             </form>
-            <div class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-                Don't have an account? <a href="#" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300">Sign up</a>
+            
+            <form id="signup-form" class="auth-form hidden">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">First Name</label>
+                        <input type="text" id="signup-firstname" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Last Name</label>
+                        <input type="text" id="signup-lastname" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Email</label>
+                    <input type="email" id="signup-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Password</label>
+                    <input type="password" id="signup-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                    Create Account
+                </button>
+            </form>
+            
+            <form id="forgot-password-form" class="auth-form hidden">
+                <div class="mb-6">
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Enter your email address and we'll send you a link to reset your password.</p>
+                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Email</label>
+                    <input type="email" id="reset-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                    Send Reset Link
+                </button>
+                <div class="mt-4 text-center">
+                    <a href="#" id="back-to-login-link" class="text-sm text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300">Back to login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div id="delete-account-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-96 dark:bg-gray-800">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold dark:text-white">Confirm Account Deletion</h3>
+                <button id="close-delete-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mb-6">
+                <p class="text-gray-700 dark:text-gray-300 mb-4">Are you sure you want to delete your account? This action cannot be undone.</p>
+                <p class="text-gray-700 dark:text-gray-300">All your data will be permanently removed from our servers.</p>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button id="cancel-delete-btn" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
+                    Cancel
+                </button>
+                <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800">
+                    Delete Account
+                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        // User data structure
+        let currentUser = {
+            id: null,
+            firstName: '',
+            lastName: '',
+            email: '',
+            username: '',
+            role: 'Guest',
+            profileImage: null,
+            bio: '',
+            settings: {
+                darkMode: false,
+                emailNotifications: false,
+                pushNotifications: true,
+                smsNotifications: false
+            }
+        };
+
+        // Sample datasets for demonstration
+        let userDatasets = [];
+        let userModels = [];
+        let userVisualizations = [];
+
+        // DOM Elements
         const html = document.documentElement;
-        
-        // Check for saved user preference or system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (localStorage.getItem('darkMode') === 'enabled' || (!localStorage.getItem('darkMode') && prefersDark)) {
-            html.classList.add('dark');
-            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-        
-        darkModeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            const isDark = html.classList.contains('dark');
-            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-            darkModeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        });
-        
-        // Login/logout functionality
-        const loginModal = document.getElementById('login-modal');
-        const closeLoginModal = document.getElementById('close-login-modal');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const authModal = document.getElementById('auth-modal');
+        const authModalTitle = document.getElementById('auth-modal-title');
+        const closeAuthModal = document.getElementById('close-auth-modal');
+        const authTabs = document.querySelectorAll('.auth-tab-btn');
+        const authForms = document.querySelectorAll('.auth-form');
         const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        const backToLoginLink = document.getElementById('back-to-login-link');
         const logoutBtn = document.getElementById('logout-btn');
-        
-        // Simple authentication check (replace with real auth in production)
-        function isAuthenticated() {
-            return !!localStorage.getItem('datavista-authenticated');
-        }
-
-        // Show login modal and block background
-        function showLoginModal() {
-            loginModal.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-
-        // Hide login modal and unblock background
-        function hideLoginModal() {
-            loginModal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        // On page load, check authentication
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!isAuthenticated()) {
-                showLoginModal();
-            }
-        });
-
-        // Handle login form submission
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = loginForm.querySelector('input[type="email"]').value.trim();
-            const password = loginForm.querySelector('input[type="password"]').value.trim();
-            
-            // Simple demo: accept any non-empty credentials
-            if (email && password) {
-                localStorage.setItem('datavista-authenticated', '1');
-                hideLoginModal();
-                // Optionally reload or re-initialize your app here
-                location.reload();
-            } else {
-                // Show error (optional)
-                alert('Please enter both email and password.');
-            }
-        });
-
-        // Logout button clears auth and shows modal again
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                localStorage.removeItem('datavista-authenticated');
-                showLoginModal();
-            });
-        }
-
-        // Close modal button
-        closeLoginModal.addEventListener('click', function() {
-            if (!isAuthenticated()) {
-                // Do nothing or show a message
-                alert('You must login to use DataVista.');
-            } else {
-                hideLoginModal();
-            }
-        });
-
-        // Tab switching functionality
+        const deleteAccountBtn = document.getElementById('delete-account-btn');
+        const deleteAccountModal = document.getElementById('delete-account-modal');
+        const closeDeleteModal = document.getElementById('close-delete-modal');
+        const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
         const tabLinks = document.querySelectorAll('.tab-link');
         const tabContents = document.querySelectorAll('.tab-content');
         const pageTitle = document.getElementById('page-title');
-        
+        const usernameDisplay = document.getElementById('username-display');
+        const userRoleDisplay = document.getElementById('user-role-display');
+        const profileImgContainer = document.getElementById('profile-img-container');
+        const profileIcon = document.getElementById('profile-icon');
+        const profileUpload = document.getElementById('profile-upload');
+        const profilePreview = document.getElementById('profile-preview');
+        const profilePlaceholder = document.getElementById('profile-placeholder');
+        const profileForm = document.getElementById('profile-form');
+        const settingsForm = document.getElementById('settings-form');
+
         // Tab name to title mapping
         const tabTitles = {
             'dashboard': 'Dashboard',
@@ -977,107 +1203,603 @@
             'stats': 'Statistics',
             'ml': 'Machine Learning',
             'hypothesis': 'Hypothesis Testing',
-            'visualization': 'Charts & Graphs'
+            'visualization': 'Charts & Graphs',
+            'profile': 'Profile',
+            'settings': 'Settings'
         };
 
-        tabLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const tabId = link.getAttribute('data-tab');
-                
-                // Update active tab
-                tabLinks.forEach(tab => {
-                    tab.classList.remove('bg-indigo-50', 'text-indigo-700', 'font-medium', 'dark:bg-indigo-900/30', 'dark:text-indigo-300');
-                    tab.classList.add('text-gray-700', 'hover:bg-gray-100', 'dark:text-gray-300', 'dark:hover:bg-gray-700');
-                });
-                link.classList.remove('text-gray-700', 'hover:bg-gray-100', 'dark:text-gray-300', 'dark:hover:bg-gray-700');
-                link.classList.add('bg-indigo-50', 'text-indigo-700', 'font-medium', 'dark:bg-indigo-900/30', 'dark:text-indigo-300');
-                
-                // Show selected tab content
-                tabContents.forEach(content => content.classList.remove('active'));
-                document.getElementById(tabId).classList.add('active');
-                
-                // Update page title
-                if (pageTitle && tabTitles[tabId]) {
-                    pageTitle.textContent = tabTitles[tabId];
-                }
-            });
-        });
-
-        // Upload tab switching
-        document.querySelectorAll('.upload-tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.upload-tab-btn').forEach(b => {
-                    b.classList.remove('text-indigo-700', 'border-b-2', 'border-indigo-600', 'font-semibold', 'dark:text-indigo-400', 'dark:border-indigo-400');
-                });
-                this.classList.add('text-indigo-700', 'border-b-2', 'border-indigo-600', 'font-semibold', 'dark:text-indigo-400', 'dark:border-indigo-400');
-                document.querySelectorAll('.upload-tab-content').forEach(tab => tab.classList.add('hidden'));
-                document.getElementById('upload-tab-' + this.dataset.uploadTab).classList.remove('hidden');
-            });
-        });
-
-        // Upload Progress Simulation
-        document.querySelectorAll('#upload-tab-local button, #upload-tab-url button').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const progressBar = document.getElementById('upload-progress');
-                const progressBarFill = document.getElementById('upload-progress-bar');
-                const progressPercent = document.getElementById('upload-progress-percent');
-                
-                if (!progressBar || !progressBarFill || !progressPercent) return;
-                
-                progressBar.classList.remove('hidden');
-                progressBarFill.style.width = '0%';
-                progressPercent.textContent = '0%';
-                
-                let percent = 0;
-                const interval = setInterval(() => {
-                    percent += Math.floor(Math.random() * 15) + 5;
-                    if (percent > 100) percent = 100;
-                    progressBarFill.style.width = percent + '%';
-                    progressPercent.textContent = percent + '%';
-                    
-                    if (percent >= 100) {
-                        clearInterval(interval);
-                        setTimeout(() => {
-                            progressBar.classList.add('hidden');
-                            progressBarFill.style.width = '0%';
-                            progressPercent.textContent = '0%';
-                            alert('Upload complete! (Simulated)');
-                        }, 800);
-                    }
-                }, 300);
-            });
-        });
-
-        // Preview functionality
-        document.querySelectorAll('.fa-eye').forEach(btn => {
-            btn.parentElement.addEventListener('click', function(e) {
-                e.preventDefault();
-                const fileName = this.closest('li').querySelector('span.font-medium').textContent;
-                alert('Previewing: ' + fileName + '\n\n(Sample preview: Only available in full implementation.)');
-            });
-        });
-
-        // Delete functionality
-        document.querySelectorAll('.fa-trash-alt').forEach(btn => {
-            btn.parentElement.addEventListener('click', function(e) {
-                e.preventDefault();
-                const li = this.closest('li');
-                const fileName = li.querySelector('span.font-medium').textContent;
-                if (confirm('Are you sure you want to delete "' + fileName + '"?')) {
-                    li.style.transition = 'opacity 0.3s';
-                    li.style.opacity = 0;
-                    setTimeout(() => li.remove(), 300);
-                }
-            });
-        });
-
-        // Initialize - activate first tab if none is active
-        if (!document.querySelector('.tab-content.active')) {
-            const firstTab = document.querySelector('.tab-link');
-            if (firstTab) firstTab.click();
+        // Initialize the application
+        function initApp() {
+            // Check authentication status
+            checkAuthStatus();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Load sample data if user is authenticated
+            if (currentUser.id) {
+                loadSampleData();
+            }
         }
+
+        // Check authentication status
+        function checkAuthStatus() {
+            const savedUser = localStorage.getItem('datavista-currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUIForAuthenticatedUser();
+            } else {
+                showAuthModal('login');
+            }
+        }
+
+        // Update UI for authenticated user
+        function updateUIForAuthenticatedUser() {
+            // Update user info in sidebar
+            usernameDisplay.textContent = currentUser.firstName ? `${currentUser.firstName} ${currentUser.lastName}` : currentUser.username;
+            userRoleDisplay.textContent = currentUser.role;
+            
+            // Update profile image
+            updateProfileImage();
+            
+            // Set dark mode if enabled
+            if (currentUser.settings.darkMode) {
+                html.classList.add('dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                html.classList.remove('dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            // Hide auth modal if shown
+            hideAuthModal();
+            
+            // Load profile data
+            loadProfileData();
+        }
+
+        // Update profile image display
+        function updateProfileImage() {
+            if (currentUser.profileImage) {
+                profileIcon.classList.add('hidden');
+                if (profileImgContainer.querySelector('img')) {
+                    profileImgContainer.querySelector('img').src = currentUser.profileImage;
+                } else {
+                    const img = document.createElement('img');
+                    img.src = currentUser.profileImage;
+                    img.className = 'profile-img';
+                    img.alt = 'Profile';
+                    profileImgContainer.appendChild(img);
+                }
+                
+                if (profilePreview.querySelector('img')) {
+                    profilePreview.querySelector('img').src = currentUser.profileImage;
+                    profilePlaceholder.classList.add('hidden');
+                }
+            } else {
+                profileIcon.classList.remove('hidden');
+                const img = profileImgContainer.querySelector('img');
+                if (img) img.remove();
+                
+                if (profilePreview.querySelector('img')) {
+                    profilePreview.querySelector('img').remove();
+                    profilePlaceholder.classList.remove('hidden');
+                }
+            }
+        }
+
+        // Load profile data into forms
+        function loadProfileData() {
+            document.getElementById('first-name').value = currentUser.firstName || '';
+            document.getElementById('last-name').value = currentUser.lastName || '';
+            document.getElementById('email').value = currentUser.email || '';
+            document.getElementById('bio').value = currentUser.bio || '';
+            document.getElementById('username').value = currentUser.username || '';
+            
+            // Set notification preferences
+            document.getElementById('email-notifications').checked = currentUser.settings.emailNotifications;
+            document.getElementById('push-notifications').checked = currentUser.settings.pushNotifications;
+            document.getElementById('sms-notifications').checked = currentUser.settings.smsNotifications;
+        }
+
+        // Load sample data for demonstration
+        function loadSampleData() {
+            userDatasets = [
+                { id: 1, name: 'Sales Data Q3.csv', type: 'CSV', date: '2023-10-15' },
+                { id: 2, name: 'Customer Demographics.xlsx', type: 'Excel', date: '2023-09-28' },
+                { id: 3, name: 'Survey_Responses.json', type: 'JSON', date: '2023-11-02' }
+            ];
+            
+            userModels = [
+                { id: 1, name: 'Random Forest', accuracy: 0.94, type: 'Classification', date: '2023-11-10' },
+                { id: 2, name: 'Linear Regression', accuracy: 0.89, type: 'Regression', date: '2023-11-05' },
+                { id: 3, name: 'K-Means', accuracy: 0.91, type: 'Clustering', date: '2023-11-08' }
+            ];
+            
+            userVisualizations = [
+                { id: 1, name: 'Sales by Region', type: 'Bar Chart', date: '2023-11-12' },
+                { id: 2, name: 'Customer Age Distribution', type: 'Histogram', date: '2023-11-11' },
+                { id: 3, name: 'Income vs. Spending', type: 'Scatter Plot', date: '2023-11-09' }
+            ];
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Dark mode toggle
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            
+            // Auth modal
+            closeAuthModal.addEventListener('click', hideAuthModal);
+            
+            // Auth tabs
+            authTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    switchAuthTab(tab.dataset.authTab);
+                });
+            });
+            
+            // Forgot password link
+            forgotPasswordLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchAuthTab('forgot');
+            });
+            
+            // Back to login link
+            backToLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchAuthTab('login');
+            });
+            
+            // Login form
+            loginForm.addEventListener('submit', handleLogin);
+            
+            // Signup form
+            signupForm.addEventListener('submit', handleSignup);
+            
+            // Forgot password form
+            forgotPasswordForm.addEventListener('submit', handleForgotPassword);
+            
+            // Logout button
+            logoutBtn.addEventListener('click', handleLogout);
+            
+            // Delete account button
+            deleteAccountBtn.addEventListener('click', () => {
+                deleteAccountModal.classList.remove('hidden');
+            });
+            
+            // Delete account modal buttons
+            closeDeleteModal.addEventListener('click', () => {
+                deleteAccountModal.classList.add('hidden');
+            });
+            
+            cancelDeleteBtn.addEventListener('click', () => {
+                deleteAccountModal.classList.add('hidden');
+            });
+            
+            confirmDeleteBtn.addEventListener('click', handleDeleteAccount);
+            
+            // Tab switching
+            tabLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    switchTab(link.dataset.tab);
+                });
+            });
+            
+            // Profile image upload
+            profileUpload.addEventListener('change', handleProfileImageUpload);
+            
+            // Profile form submission
+            profileForm.addEventListener('submit', handleProfileUpdate);
+            
+            // Settings form submission
+            settingsForm.addEventListener('submit', handleSettingsUpdate);
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            currentUser.settings.darkMode = isDark;
+            saveUserData();
+            darkModeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+
+        // Show auth modal
+        function showAuthModal(tab = 'login') {
+            authModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            switchAuthTab(tab);
+        }
+
+        // Hide auth modal
+        function hideAuthModal() {
+            authModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Switch auth tab
+        function switchAuthTab(tab) {
+            // Update active tab
+            authTabs.forEach(t => {
+                if (t.dataset.authTab === tab) {
+                    t.classList.add('text-indigo-700', 'border-b-2', 'border-indigo-600', 'font-semibold', 'dark:text-indigo-400', 'dark:border-indigo-400');
+                    t.classList.remove('text-gray-600', 'dark:text-gray-400');
+                } else {
+                    t.classList.remove('text-indigo-700', 'border-b-2', 'border-indigo-600', 'font-semibold', 'dark:text-indigo-400', 'dark:border-indigo-400');
+                    t.classList.add('text-gray-600', 'dark:text-gray-400');
+                }
+            });
+            
+            // Update modal title
+            if (tab === 'login') {
+                authModalTitle.textContent = 'Login to DataVista';
+            } else if (tab === 'signup') {
+                authModalTitle.textContent = 'Create an Account';
+            } else if (tab === 'forgot') {
+                authModalTitle.textContent = 'Reset Your Password';
+            }
+            
+            // Show/hide forms
+            authForms.forEach(form => {
+                if (form.id === `${tab}-form`) {
+                    form.classList.remove('hidden');
+                } else {
+                    form.classList.add('hidden');
+                }
+            });
+        }
+
+        // Switch tab
+        function switchTab(tabId) {
+            // Update active tab in sidebar
+            tabLinks.forEach(link => {
+                if (link.dataset.tab === tabId) {
+                    link.classList.remove('text-gray-700', 'hover:bg-gray-100', 'dark:text-gray-300', 'dark:hover:bg-gray-700');
+                    link.classList.add('bg-indigo-50', 'text-indigo-700', 'font-medium', 'dark:bg-indigo-900/30', 'dark:text-indigo-300');
+                } else {
+                    link.classList.remove('bg-indigo-50', 'text-indigo-700', 'font-medium', 'dark:bg-indigo-900/30', 'dark:text-indigo-300');
+                    link.classList.add('text-gray-700', 'hover:bg-gray-100', 'dark:text-gray-300', 'dark:hover:bg-gray-700');
+                }
+            });
+            
+            // Show selected tab content
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update page title
+            if (tabTitles[tabId]) {
+                pageTitle.textContent = tabTitles[tabId];
+            }
+        }
+
+        // Handle login
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            
+            // Simple validation
+            if (!email || !password) {
+                alert('Please enter both email and password.');
+                return;
+            }
+            
+            // Simulate login (in a real app, this would be an API call)
+            simulateLogin(email, password);
+        }
+
+        // Simulate login
+        function simulateLogin(email, password) {
+            // Show loading state
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Logging in...';
+            submitBtn.disabled = true;
+            
+            // Simulate API delay
+            setTimeout(() => {
+                // For demo purposes, accept any non-empty credentials
+                currentUser = {
+                    id: 'user_' + Math.random().toString(36).substr(2, 9),
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    email: email,
+                    username: email.split('@')[0],
+                    role: 'Premium Member',
+                    profileImage: null,
+                    bio: 'Data analyst with 5 years of experience',
+                    settings: {
+                        darkMode: false,
+                        emailNotifications: false,
+                        pushNotifications: true,
+                        smsNotifications: false
+                    }
+                };
+                
+                // Save user data
+                saveUserData();
+                
+                // Update UI
+                updateUIForAuthenticatedUser();
+                
+                // Reset form
+                loginForm.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Show welcome message
+                alert(`Welcome back, ${currentUser.firstName}!`);
+            }, 1500);
+        }
+
+        // Handle signup
+        function handleSignup(e) {
+            e.preventDefault();
+            const firstName = document.getElementById('signup-firstname').value.trim();
+            const lastName = document.getElementById('signup-lastname').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value.trim();
+            const confirmPassword = document.getElementById('signup-confirm-password').value.trim();
+            
+            // Validation
+            if (!firstName || !lastName || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long.');
+                return;
+            }
+            
+            // Simulate signup
+            simulateSignup(firstName, lastName, email, password);
+        }
+
+        // Simulate signup
+        function simulateSignup(firstName, lastName, email, password) {
+            // Show loading state
+            const submitBtn = signupForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Creating account...';
+            submitBtn.disabled = true;
+            
+            // Simulate API delay
+            setTimeout(() => {
+                currentUser = {
+                    id: 'user_' + Math.random().toString(36).substr(2, 9),
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    username: email.split('@')[0],
+                    role: 'Standard Member',
+                    profileImage: null,
+                    bio: '',
+                    settings: {
+                        darkMode: false,
+                        emailNotifications: true,
+                        pushNotifications: true,
+                        smsNotifications: false
+                    }
+                };
+                
+                // Save user data
+                saveUserData();
+                
+                // Update UI
+                updateUIForAuthenticatedUser();
+                
+                // Reset form
+                signupForm.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Show welcome message
+                alert(`Welcome to DataVista, ${currentUser.firstName}!`);
+            }, 1500);
+        }
+
+        // Handle forgot password
+        function handleForgotPassword(e) {
+            e.preventDefault();
+            const email = document.getElementById('reset-email').value.trim();
+            
+            if (!email) {
+                alert('Please enter your email address.');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = forgotPasswordForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate sending reset email
+            setTimeout(() => {
+                alert(`Password reset link has been sent to ${email}`);
+                forgotPasswordForm.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                switchAuthTab('login');
+            }, 1500);
+        }
+
+        // Handle logout
+        function handleLogout(e) {
+            e.preventDefault();
+            currentUser = {
+                id: null,
+                firstName: '',
+                lastName: '',
+                email: '',
+                username: '',
+                role: 'Guest',
+                profileImage: null,
+                bio: '',
+                settings: {
+                    darkMode: false,
+                    emailNotifications: false,
+                    pushNotifications: true,
+                    smsNotifications: false
+                }
+            };
+            
+            // Clear saved data
+            localStorage.removeItem('datavista-currentUser');
+            
+            // Reset UI
+            usernameDisplay.textContent = 'Guest User';
+            userRoleDisplay.textContent = 'Guest';
+            profileIcon.classList.remove('hidden');
+            const img = profileImgContainer.querySelector('img');
+            if (img) img.remove();
+            
+            // Show login modal
+            showAuthModal('login');
+        }
+
+        // Handle delete account
+        function handleDeleteAccount() {
+            // Show loading state
+            confirmDeleteBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Deleting...';
+            confirmDeleteBtn.disabled = true;
+            
+            // Simulate account deletion
+            setTimeout(() => {
+                // Clear user data
+                currentUser = {
+                    id: null,
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    username: '',
+                    role: 'Guest',
+                    profileImage: null,
+                    bio: '',
+                    settings: {
+                        darkMode: false,
+                        emailNotifications: false,
+                        pushNotifications: true,
+                        smsNotifications: false
+                    }
+                };
+                
+                // Clear saved data
+                localStorage.removeItem('datavista-currentUser');
+                
+                // Reset UI
+                usernameDisplay.textContent = 'Guest User';
+                userRoleDisplay.textContent = 'Guest';
+                profileIcon.classList.remove('hidden');
+                const img = profileImgContainer.querySelector('img');
+                if (img) img.remove();
+                
+                // Close modal and show login
+                deleteAccountModal.classList.add('hidden');
+                confirmDeleteBtn.innerHTML = 'Delete Account';
+                confirmDeleteBtn.disabled = false;
+                showAuthModal('login');
+                
+                alert('Your account has been deleted.');
+            }, 1500);
+        }
+
+        // Handle profile image upload
+        function handleProfileImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // Check file type
+            if (!file.type.match('image.*')) {
+                alert('Please select an image file (JPG, PNG, GIF).');
+                return;
+            }
+            
+            // Check file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Image size must be less than 2MB.');
+                return;
+            }
+            
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                currentUser.profileImage = event.target.result;
+                saveUserData();
+                updateProfileImage();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Handle profile update
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            
+            currentUser.firstName = document.getElementById('first-name').value.trim();
+            currentUser.lastName = document.getElementById('last-name').value.trim();
+            currentUser.email = document.getElementById('email').value.trim();
+            currentUser.bio = document.getElementById('bio').value.trim();
+            
+            saveUserData();
+            updateUIForAuthenticatedUser();
+            
+            // Show success message
+            alert('Profile updated successfully!');
+        }
+
+        // Handle settings update
+        function handleSettingsUpdate(e) {
+            e.preventDefault();
+            
+            currentUser.username = document.getElementById('username').value.trim();
+            
+            // Update password if provided
+            const currentPassword = document.getElementById('current-password').value.trim();
+            const newPassword = document.getElementById('new-password').value.trim();
+            const confirmPassword = document.getElementById('confirm-password').value.trim();
+            
+            if (newPassword && newPassword !== confirmPassword) {
+                alert('New passwords do not match.');
+                return;
+            }
+            
+            if (newPassword && !currentPassword) {
+                alert('Please enter your current password to change it.');
+                return;
+            }
+            
+            // Update notification preferences
+            currentUser.settings.emailNotifications = document.getElementById('email-notifications').checked;
+            currentUser.settings.pushNotifications = document.getElementById('push-notifications').checked;
+            currentUser.settings.smsNotifications = document.getElementById('sms-notifications').checked;
+            
+            saveUserData();
+            updateUIForAuthenticatedUser();
+            
+            // Reset password fields
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+            
+            // Show success message
+            alert('Settings updated successfully!');
+        }
+
+        // Save user data to localStorage
+        function saveUserData() {
+            localStorage.setItem('datavista-currentUser', JSON.stringify(currentUser));
+        }
+
+        // Initialize the app
+        initApp();
     </script>
 </body>
 </html>
