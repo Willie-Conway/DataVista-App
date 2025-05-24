@@ -487,6 +487,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Progress Bar (hidden by default, show when uploading) -->
                     <div id="upload-progress" class="mt-6 hidden">
                         <div class="flex justify-between text-sm text-gray-500 mb-1 dark:text-gray-400">
@@ -1796,6 +1797,92 @@
         // Save user data to localStorage
         function saveUserData() {
             localStorage.setItem('datavista-currentUser', JSON.stringify(currentUser));
+        }
+
+                // Update profile image display - modified to update both places
+        function updateProfileImage() {
+            if (currentUser.profileImage) {
+                // Update sidebar profile image
+                profileIcon.classList.add('hidden');
+                if (profileImgContainer.querySelector('img')) {
+                    profileImgContainer.querySelector('img').src = currentUser.profileImage;
+                } else {
+                    const img = document.createElement('img');
+                    img.src = currentUser.profileImage;
+                    img.className = 'profile-img';
+                    img.alt = 'Profile';
+                    profileImgContainer.appendChild(img);
+                }
+                
+                // Update profile page preview
+                if (profilePreview.querySelector('img')) {
+                    profilePreview.querySelector('img').src = currentUser.profileImage;
+                } else {
+                    const previewImg = document.createElement('img');
+                    previewImg.src = currentUser.profileImage;
+                    previewImg.className = 'w-full h-full object-cover';
+                    previewImg.alt = 'Profile Preview';
+                    profilePreview.appendChild(previewImg);
+                }
+                profilePlaceholder.classList.add('hidden');
+            } else {
+                // Clear sidebar profile image
+                profileIcon.classList.remove('hidden');
+                const img = profileImgContainer.querySelector('img');
+                if (img) img.remove();
+                
+                // Clear profile page preview
+                const previewImg = profilePreview.querySelector('img');
+                if (previewImg) previewImg.remove();
+                profilePlaceholder.classList.remove('hidden');
+            }
+        }
+
+        // Handle profile update - modified to include bio
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            
+            // Update user data
+            currentUser.firstName = document.getElementById('first-name').value.trim();
+            currentUser.lastName = document.getElementById('last-name').value.trim();
+            currentUser.email = document.getElementById('email').value.trim();
+            currentUser.bio = document.getElementById('bio').value.trim();
+            
+            // Update username display
+            usernameDisplay.textContent = currentUser.firstName ? `${currentUser.firstName} ${currentUser.lastName}` : currentUser.username;
+            
+            saveUserData();
+            updateProfileImage(); // Ensure profile image is updated
+            
+            // Show success message
+            alert('Profile updated successfully!');
+        }
+
+        // Handle profile image upload - modified to properly update both places
+        function handleProfileImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // Check file type
+            if (!file.type.match('image.*')) {
+                alert('Please select an image file (JPG, PNG, GIF).');
+                return;
+            }
+            
+            // Check file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Image size must be less than 2MB.');
+                return;
+            }
+            
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                currentUser.profileImage = event.target.result;
+                saveUserData();
+                updateProfileImage(); // This will update both the sidebar and profile page
+            };
+            reader.readAsDataURL(file);
         }
 
         // Initialize the app
