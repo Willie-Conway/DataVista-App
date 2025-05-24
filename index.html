@@ -6,150 +6,9 @@
     <title>DataVista | Comprehensive Data Analysis Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --secondary: #10b981;
-            --dark: #1e293b;
-            --light: #f8fafc;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
-            transition: background-color 0.3s ease;
-        }
-        
-        .dark body {
-            background-color: #0f172a;
-            color: #f8fafc;
-        }
-        
-        .sidebar {
-            transition: all 0.3s ease;
-        }
-        
-        .dark .sidebar {
-            background-color: #1e293b;
-            color: #f8fafc;
-        }
-        
-        .card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            background-color: white;
-        }
-        
-        .dark .card {
-            background-color: #1e293b;
-            color: #f8fafc;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .progress-bar {
-            height: 6px;
-            border-radius: 3px;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .data-table {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .chart-container {
-            position: relative;
-            height: 300px;
-        }
-        
-        /* Dark mode input styles */
-        .dark input,
-        .dark select,
-        .dark textarea {
-            background-color: #334155;
-            color: #f8fafc;
-            border-color: #475569;
-        }
-        
-        .dark .bg-gray-100 {
-            background-color: #334155;
-            color: #f8fafc;
-        }
-        
-        .dark .text-gray-700 {
-            color: #e2e8f0;
-        }
-        
-        .dark .text-gray-500 {
-            color: #94a3b8;
-        }
-        
-        .dark .border-gray-200 {
-            border-color: #334155;
-        }
-        
-        .dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
-            border-color: #334155;
-        }
-        
-        /* Profile image styling */
-        .profile-img {
-            width: 36px;
-            height: 36px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-        
-        /* Settings form styling */
-        .settings-form .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        /* File upload styling */
-        .file-upload {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .file-upload-input {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        /* Animation for loading */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .animate-spin {
-            animation: spin 1s linear infinite;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="flex h-screen">
-    <!-- Sidebar -->
     <div class="sidebar w-64 bg-white shadow-lg flex flex-col dark:bg-gray-800">
         <div class="p-4 flex items-center space-x-3 border-b dark:border-gray-700">
             <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center dark:bg-indigo-900">
@@ -184,7 +43,7 @@
                 <i class="fas fa-flask mr-2"></i> Hypothesis Testing
             </a>
 
-             <div class="text-xs uppercase text-gray-500 font-semibold mt-6 mb-2 px-2 dark:text-gray-400">Visualization</div>
+            <div class="text-xs uppercase text-gray-500 font-semibold mt-6 mb-2 px-2 dark:text-gray-400">Visualization</div>
             <a href="#" class="tab-link block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" data-tab="visualization">
                 <i class="fas fa-chart-bar mr-2"></i> Charts & Graphs
             </a>
@@ -211,9 +70,7 @@
         </div>
     </div>
     
-    <!-- Main Content -->
     <div class="flex-1 overflow-y-auto">
-        <!-- Header -->
         <header class="bg-white shadow-sm p-4 flex justify-between items-center dark:bg-gray-800 dark:border-b dark:border-gray-700">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white" id="page-title">Dashboard</h2>
             <div class="flex items-center space-x-4">
@@ -242,11 +99,8 @@
             </div>
         </header>
         
-        <!-- Tab Contents -->
         <main class="p-6">
-            <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
-                <!-- Top Metrics -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                     <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
                         <div class="flex justify-between items-start">
@@ -329,11 +183,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- End Top Metrics -->
-
-                <!-- Activity & Quick Insights -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                    <!-- Recent Activity -->
                     <div class="card bg-white rounded-xl shadow p-6 lg:col-span-2 dark:bg-gray-800">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="font-semibold text-lg dark:text-white">Recent Activity</h3>
@@ -378,7 +228,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Quick Insights -->
                     <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="font-semibold text-lg dark:text-white">Quick Insights</h3>
@@ -404,29 +253,22 @@
                         </ul>
                     </div>
                 </div>
-                <!-- End Activity & Quick Insights -->
-
-                <!-- Mini Charts -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
                         <h4 class="font-semibold mb-4 dark:text-white">Dataset Growth</h4>
                         <div class="chart-container">
-                            <!-- Placeholder for a chart (replace with Chart.js or similar in production) -->
                             <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['Jan','Feb','Mar','Apr','May'],datasets:[{label:'Datasets',data:[1,2,2,3,3],borderColor:'%234f46e5',fill:false}]}}" alt="Dataset Growth Chart" class="w-full h-48 object-contain" />
                         </div>
                     </div>
                     <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
                         <h4 class="font-semibold mb-4 dark:text-white">Model Accuracy</h4>
                         <div class="chart-container">
-                            <!-- Placeholder for a chart -->
                             <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['LR','RF','SVM'],datasets:[{label:'Accuracy',data:[0.89,0.94,0.91],backgroundColor:['%2310b981','%234f46e5','%23f59e42']}]},options:{scales:{y:{min:0,max:1}}}}" alt="Model Accuracy Chart" class="w-full h-48 object-contain" />
                         </div>
                     </div>
                 </div>
-                <!-- End Mini Charts -->
-            </div>
+                </div>
             
-            <!-- Data Loading Tab -->
             <div id="data-load" class="tab-content">
                 <div class="card bg-white rounded-xl shadow p-6 mb-6 dark:bg-gray-800">
                     <div class="flex items-center mb-4">
@@ -438,7 +280,6 @@
                     <p class="text-gray-600 mb-4 dark:text-gray-400">
                         Import your datasets from local files, URLs, or explore sample data to get started quickly.
                     </p>
-                    <!-- Upload Tabs -->
                     <div>
                         <div class="flex border-b mb-4 dark:border-gray-700">
                             <button class="upload-tab-btn px-4 py-2 text-indigo-700 border-b-2 border-indigo-600 font-semibold focus:outline-none dark:text-indigo-400 dark:border-indigo-400" data-upload-tab="local">
@@ -486,20 +327,18 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Progress Bar (hidden by default, show when uploading) -->
-                    <div id="upload-progress" class="mt-6 hidden">
-                        <div class="flex justify-between text-sm text-gray-500 mb-1 dark:text-gray-400">
-                            <span>Uploading...</span>
-                            <span id="upload-progress-percent">0%</span>
-                        </div>
-                        <div class="progress-bar bg-gray-200 rounded-full dark:bg-gray-700">
-                            <div class="progress-bar bg-indigo-600 rounded-full h-full" style="width: 0%" id="upload-progress-bar"></div>
+                        
+                        <div id="upload-progress" class="mt-6 hidden">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1 dark:text-gray-400">
+                                <span>Uploading...</span>
+                                <span id="upload-progress-percent">0%</span>
+                            </div>
+                            <div class="progress-bar bg-gray-200 rounded-full dark:bg-gray-700">
+                                <div class="progress-bar bg-indigo-600 rounded-full h-full" style="width: 0%" id="upload-progress-bar"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- Recent Datasets -->
                 <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
                     <div class="flex items-center mb-4">
                         <div class="p-2 rounded-lg bg-green-100 text-green-600 mr-3 dark:bg-green-900 dark:text-green-300">
@@ -532,8 +371,8 @@
                         </li>
                         <li class="flex items-center justify-between py-3">
                             <div class="flex items-center">
-                                <i class="fas fa-file-code text-yellow-500 mr-3 dark:text-yellow-400"></i>
-                                <span class="text-gray-700 font-medium dark:text-gray-300">Survey_Responses.json</span>
+                                <i class="fas fa-file-alt text-blue-500 mr-3 dark:text-blue-400"></i>
+                                <span class="text-gray-700 font-medium dark:text-gray-300">Web Analytics.json</span>
                             </div>
                             <div class="flex items-center space-x-2">
                                 <span class="text-xs text-gray-500 dark:text-gray-400">JSON</span>
@@ -545,1348 +384,584 @@
                 </div>
             </div>
 
-            <!-- Data Cleaning Tab -->
             <div id="data-clean" class="tab-content">
                 <div class="card bg-white rounded-xl shadow p-6 mb-6 dark:bg-gray-800">
                     <div class="flex items-center mb-4">
-                        <div class="p-2 rounded-lg bg-purple-100 text-purple-600 mr-3 dark:bg-purple-900 dark:text-purple-300">
+                        <div class="p-2 rounded-lg bg-yellow-100 text-yellow-600 mr-3 dark:bg-yellow-900 dark:text-yellow-300">
                             <i class="fas fa-broom"></i>
                         </div>
                         <h3 class="font-semibold text-lg dark:text-white">Data Cleaning</h3>
                     </div>
                     <p class="text-gray-600 mb-4 dark:text-gray-400">
-                        Clean your datasets by handling missing values, removing duplicates, and correcting data types for optimal analysis.
+                        Identify and handle missing values, outliers, duplicates, and correct data types to ensure data quality.
                     </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Missing Values -->
-                        <div class="bg-indigo-50 rounded-lg p-4 dark:bg-indigo-900/30">
-                            <h4 class="font-semibold mb-2 text-indigo-700 dark:text-indigo-300"><i class="fas fa-question-circle mr-2"></i>Handle Missing Values</h4>
-                            <p class="text-sm text-gray-600 mb-2 dark:text-gray-400">Choose how to process missing data:</p>
-                            <select class="w-full p-2 rounded border border-gray-300 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                <option>Remove Rows</option>
-                                <option>Impute with Mean</option>
-                                <option>Impute with Median</option>
-                                <option>Impute with Mode</option>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="dataset-select-clean" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Dataset:</label>
+                            <select id="dataset-select-clean" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Sales Data Q3.csv</option>
+                                <option>Customer Demographics.xlsx</option>
                             </select>
-                            <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">Apply</button>
                         </div>
-                        <!-- Duplicates -->
-                        <div class="bg-green-50 rounded-lg p-4 dark:bg-green-900/30">
-                            <h4 class="font-semibold mb-2 text-green-700 dark:text-green-300"><i class="fas fa-copy mr-2"></i>Remove Duplicates</h4>
-                            <p class="text-sm text-gray-600 mb-2 dark:text-gray-400">Detect and remove duplicate entries in your dataset.</p>
-                            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800">Remove Duplicates</button>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Missing Values:</label>
+                            <div class="flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-indigo-600 dark:text-indigo-400" name="missing-values" value="drop" checked>
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">Drop rows</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-indigo-600 dark:text-indigo-400" name="missing-values" value="impute-mean">
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">Impute with Mean</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-indigo-600 dark:text-indigo-400" name="missing-values" value="impute-median">
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">Impute with Median</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-indigo-600 dark:text-indigo-400" name="missing-values" value="impute-mode">
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">Impute with Mode</span>
+                                </label>
+                            </div>
                         </div>
-                        <!-- Data Types -->
-                        <div class="bg-yellow-50 rounded-lg p-4 dark:bg-yellow-900/30">
-                            <h4 class="font-semibold mb-2 text-yellow-700 dark:text-yellow-300"><i class="fas fa-exchange-alt mr-2"></i>Fix Data Types</h4>
-                            <p class="text-sm text-gray-600 mb-2 dark:text-gray-400">Convert columns to the correct data type (e.g., numeric, categorical).</p>
-                            <button class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 dark:bg-yellow-700 dark:hover:bg-yellow-800">Fix Data Types</button>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duplicate Rows:</label>
+                            <div class="flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" class="form-checkbox text-indigo-600 dark:text-indigo-400" checked>
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">Remove duplicates</span>
+                                </label>
+                            </div>
                         </div>
-                        <!-- Outlier Detection -->
-                        <div class="bg-red-50 rounded-lg p-4 dark:bg-red-900/30">
-                            <h4 class="font-semibold mb-2 text-red-700 dark:text-red-300"><i class="fas fa-exclamation-triangle mr-2"></i>Detect Outliers</h4>
-                            <p class="text-sm text-gray-600 mb-2 dark:text-gray-400">Identify and handle outliers in your data.</p>
-                            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800">Detect Outliers</button>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Outlier Detection:</label>
+                            <select class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>None</option>
+                                <option>Z-score</option>
+                                <option>IQR</option>
+                            </select>
                         </div>
+                        
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                            <i class="fas fa-check-circle mr-2"></i>Apply Cleaning
+                        </button>
                     </div>
                 </div>
+
                 <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
-                    <h4 class="font-semibold mb-4 dark:text-white">Preview Cleaned Data</h4>
+                    <h4 class="font-semibold text-lg mb-4 dark:text-white">Data Quality Report</h4>
                     <div class="data-table overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead>
+                            <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Column</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Type</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Missing</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Unique</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Column</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Missing %</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Duplicates</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Data Type</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- Example rows -->
+                            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">CustomerID</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Integer</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">0</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">1500</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">ProductID</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0%</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Integer</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">View</button>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Age</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Integer</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">12</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">45</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CustomerName</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">5%</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">10</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">String</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Clean</button>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Gender</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Category</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">0</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">2</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Price</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">1%</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Float</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Clean</button>
+                                    </td>
                                 </tr>
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Preprocessing Tab -->
             <div id="preprocessing" class="tab-content">
                 <div class="card bg-white rounded-xl shadow p-6 mb-6 dark:bg-gray-800">
                     <div class="flex items-center mb-4">
-                        <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600 mr-3 dark:bg-indigo-900 dark:text-indigo-300">
+                        <div class="p-2 rounded-lg bg-blue-100 text-blue-600 mr-3 dark:bg-blue-900 dark:text-blue-300">
                             <i class="fas fa-cogs"></i>
                         </div>
-                        <h3 class="font-semibold text-lg dark:text-white">Preprocessing</h3>
+                        <h3 class="font-semibold text-lg dark:text-white">Data Preprocessing</h3>
                     </div>
                     <p class="text-gray-600 mb-4 dark:text-gray-400">
-                        Prepare your data for analysis and modeling with essential preprocessing steps like scaling, encoding, and feature engineering.
+                        Prepare your data for machine learning models by applying scaling, encoding, and feature engineering techniques.
                     </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Scaling -->
-                        <div class="bg-blue-50 rounded-lg p-4 dark:bg-blue-900/30">
-                            <h4 class="font-semibold mb-2 text-blue-700 dark:text-blue-300"><i class="fas fa-sliders-h mr-2"></i>Scaling & Normalization</h4>
-                            <p class="text-sm text-gray-600 mb-2 dark:text-gray-400">Standardize or normalize numeric features for better model performance.</p>
-                            <select class="w-full p-2 rounded border border-gray-300 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                <option>Standard Scaler</option>
-                                <option>Min-Max Scaler</option>
-                                <option>Robust Scaler</option>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="dataset-select-preprocess" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Dataset:</label>
+                            <select id="dataset-select-preprocess" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Sales Data Q3.csv (Cleaned)</option>
+                                <option>Customer Demographics.xlsx (Cleaned)</option>
                             </select>
-                            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">Apply Scaling</button>
                         </div>
-                        <!-- Encoding -->
-                        <div class="bg-green-50 rounded-lg p-4 dark:bg-green-900/30">
-                            <h4 class="font-semibold mb-2 text-green-700 dark:text-green-300"><i class="fas fa-code mr-2"></i>Encoding Categorical Variables</h4>
-                            <p class="text-sm text-gray-600 mb-2 dark:text-gray-400">Convert categorical data into numeric format for algorithms.</p>
-                            <select class="w-full p-2 rounded border border-gray-300 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Feature Scaling:</label>
+                            <select class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>None</option>
+                                <option>Standardization (Z-score)</option>
+                                <option>Normalization (Min-Max)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Categorical Encoding:</label>
+                            <select class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>None</option>
                                 <option>One-Hot Encoding</option>
                                 <option>Label Encoding</option>
-                                <option>Ordinal Encoding</option>
                             </select>
-                            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800">Apply Encoding</button>
                         </div>
-                        <!-- Feature Engineering -->
-                        <div class="bg-yellow-50 rounded-lg p-4 dark:bg-yellow-900/30">
-                            <h4 class="font-semibold mb-2 text-yellow-700 dark:text-yellow-300"><i class="fas fa-lightbulb mr-2"></i>Feature Engineering</h4>
-                            <p class="text-sm text-gray-600 mb-2 dark:text-gray-400">Create new features or transform existing ones to improve model accuracy.</p>
-                            <button class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 dark:bg-yellow-700 dark:hover:bg-yellow-800">Add Feature</button>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Dimensionality Reduction:</label>
+                            <select class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>None</option>
+                                <option>PCA (Principal Component Analysis)</option>
+                                <option>t-SNE (t-Distributed Stochastic Neighbor Embedding)</option>
+                            </select>
                         </div>
-                        <!-- Dimensionality Reduction -->
-                        <div class="bg-purple-50 rounded-lg p-4 dark:bg-purple-900/30">
-                            <h4 class="font-semibold mb-2 text-purple-700 dark:text-purple-300"><i class="fas fa-compress-arrows-alt mr-2"></i>Dimensionality Reduction</h4>
-                            <p class="text-sm text-gray-600 mb-2 dark:text-gray-400">Reduce the number of features using techniques like PCA.</p>
-                            <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800">Apply PCA</button>
-                        </div>
+
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                            <i class="fas fa-cogs mr-2"></i>Apply Preprocessing
+                        </button>
                     </div>
                 </div>
+
                 <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
-                    <h4 class="font-semibold mb-4 dark:text-white">Preview Preprocessed Data</h4>
+                    <h4 class="font-semibold text-lg mb-4 dark:text-white">Processed Dataset Preview</h4>
                     <div class="data-table overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead>
+                            <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Feature</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Type</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Transformed</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Notes</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Feature 1</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Feature 2</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Categorical_Encoded</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Target</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- Example rows -->
+                            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Age</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Numeric</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Standard Scaled</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Ready for modeling</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">0.23</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0.87</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">1</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Class A</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Gender</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Categorical</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">One-Hot Encoded</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">3 columns created</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">0.56</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0.12</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Class B</td>
                                 </tr>
-                                <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Income</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Numeric</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Min-Max Scaled</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Normalized</td>
-                                </tr>
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Statistics Tab -->
             <div id="stats" class="tab-content">
-                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
-                    <div class="flex items-center mb-4">
-                        <div class="p-2 rounded-lg bg-blue-100 text-blue-600 mr-3 dark:bg-blue-900 dark:text-blue-300">
-                            <i class="fas fa-calculator"></i>
-                        </div>
-                        <h3 class="font-semibold text-lg dark:text-white">Statistics</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4 dark:text-gray-400">
-                        View descriptive statistics and summary metrics for your dataset.
-                    </p>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Feature</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Mean</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Median</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Std</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Min</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">Max</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Age</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">35.2</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">34</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">7.8</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">18</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">60</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Income</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">45,200</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">42,500</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">12,300</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">22,000</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">95,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Purchase Amount</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">125.50</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">89.99</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">45.20</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">10.00</td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">350.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Machine Learning Tab -->
-            <div id="ml" class="tab-content">
-                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+                <div class="card bg-white rounded-xl shadow p-6 mb-6 dark:bg-gray-800">
                     <div class="flex items-center mb-4">
                         <div class="p-2 rounded-lg bg-green-100 text-green-600 mr-3 dark:bg-green-900 dark:text-green-300">
-                            <i class="fas fa-robot"></i>
+                            <i class="fas fa-calculator"></i>
                         </div>
-                        <h3 class="font-semibold text-lg dark:text-white">Machine Learning</h3>
+                        <h3 class="font-semibold text-lg dark:text-white">Descriptive Statistics</h3>
                     </div>
                     <p class="text-gray-600 mb-4 dark:text-gray-400">
-                        Train and evaluate machine learning models on your data.
+                        Get a quick overview of your dataset's numerical features, including mean, median, standard deviation, and more.
                     </p>
-                    <form class="space-y-4">
-                        <select class="w-full p-2 rounded border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <option>Linear Regression</option>
-                            <option>Random Forest</option>
-                            <option>Logistic Regression</option>
-                            <option>K-Means Clustering</option>
-                            <option>Support Vector Machine</option>
-                            <option>Neural Network</option>
-                        </select>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800">Train Model</button>
-                            <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">Evaluate</button>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="dataset-select-stats" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Dataset:</label>
+                            <select id="dataset-select-stats" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Sales Data Q3.csv (Processed)</option>
+                                <option>Customer Demographics.xlsx (Processed)</option>
+                            </select>
                         </div>
-                    </form>
-                    <div class="mt-6">
-                        <h4 class="font-semibold mb-2 dark:text-white">Model Results</h4>
-                        <ul class="list-disc ml-6 text-gray-600 dark:text-gray-400">
-                            <li>Random Forest: 94% Accuracy</li>
-                            <li>Linear Regression: RMSE 3.2</li>
-                            <li>Logistic Regression: F1-score 0.89</li>
-                        </ul>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                            <i class="fas fa-play mr-2"></i>Generate Report
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+                    <h4 class="font-semibold text-lg mb-4 dark:text-white">Statistical Summary</h4>
+                    <div class="data-table overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Metric</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Column A</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Column B</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Column C</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Mean</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">50.2</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">12.8</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">2.5</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Median</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">49.0</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">12.0</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">2.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Std Dev</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">15.1</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">3.5</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0.8</td>
+                                </tr>
+                                </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Hypothesis Testing Tab -->
-            <div id="hypothesis" class="tab-content">
-                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+            <div id="ml" class="tab-content">
+                <div class="card bg-white rounded-xl shadow p-6 mb-6 dark:bg-gray-800">
                     <div class="flex items-center mb-4">
-                        <div class="p-2 rounded-lg bg-purple-100 text-purple-600 mr-3 dark:bg-purple-900 dark:text-purple-300">
+                        <div class="p-2 rounded-lg bg-red-100 text-red-600 mr-3 dark:bg-red-900 dark:text-red-300">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg dark:text-white">Machine Learning Models</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4 dark:text-gray-400">
+                        Build and train various machine learning models for prediction and classification tasks.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="dataset-select-ml" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Dataset:</label>
+                            <select id="dataset-select-ml" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Sales Data Q3.csv (Processed)</option>
+                                <option>Customer Demographics.xlsx (Processed)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="target-variable" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Variable:</label>
+                            <select id="target-variable" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Choose a column</option>
+                                <option>Revenue</option>
+                                <option>Churn</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="model-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Model Type:</label>
+                            <select id="model-type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Classification</option>
+                                <option>Regression</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="algorithm" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Algorithm:</label>
+                            <select id="algorithm" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Logistic Regression</option>
+                                <option>Random Forest</option>
+                                <option>SVM</option>
+                                <option>K-Nearest Neighbors</option>
+                            </select>
+                        </div>
+
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                            <i class="fas fa-brain mr-2"></i>Train Model
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+                    <h4 class="font-semibold text-lg mb-4 dark:text-white">Model Performance</h4>
+                    <div class="data-table overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Metric</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Accuracy</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0.92</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Precision</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0.88</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Recall</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0.95</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">F1-Score</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">0.91</td>
+                                </tr>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="hypothesis" class="tab-content">
+                <div class="card bg-white rounded-xl shadow p-6 mb-6 dark:bg-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 rounded-lg bg-orange-100 text-orange-600 mr-3 dark:bg-orange-900 dark:text-orange-300">
                             <i class="fas fa-flask"></i>
                         </div>
                         <h3 class="font-semibold text-lg dark:text-white">Hypothesis Testing</h3>
                     </div>
                     <p class="text-gray-600 mb-4 dark:text-gray-400">
-                        Conduct statistical hypothesis tests to validate your assumptions.
+                        Perform statistical hypothesis tests to validate assumptions and draw conclusions about your data.
                     </p>
-                    <form class="space-y-4">
-                        <select class="w-full p-2 rounded border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <option>T-test</option>
-                            <option>Chi-square Test</option>
-                            <option>ANOVA</option>
-                            <option>Mann-Whitney U Test</option>
-                        </select>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800">Run Test</button>
-                            <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">Visualize</button>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="dataset-select-hypothesis" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Dataset:</label>
+                            <select id="dataset-select-hypothesis" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Sales Data Q3.csv (Processed)</option>
+                                <option>Customer Demographics.xlsx (Processed)</option>
+                            </select>
                         </div>
-                    </form>
-                    <div class="mt-6">
-                        <h4 class="font-semibold mb-2 dark:text-white">Results</h4>
-                        <ul class="list-disc ml-6 text-gray-600 dark:text-gray-400">
-                            <li>T-test: p = 0.031 (Significant)</li>
-                            <li>Chi-square: p = 0.12 (Not significant)</li>
-                            <li>ANOVA: p = 0.002 (Significant)</li>
-                        </ul>
+
+                        <div class="form-group">
+                            <label for="test-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Test Type:</label>
+                            <select id="test-type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>T-test</option>
+                                <option>Chi-squared test</option>
+                                <option>ANOVA</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="variable-1" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Variable 1:</label>
+                            <select id="variable-1" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Choose a column</option>
+                                </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="variable-2" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Variable 2 (Optional):</label>
+                            <select id="variable-2" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Choose a column</option>
+                                </select>
+                        </div>
+
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                            <i class="fas fa-flask mr-2"></i>Run Test
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+                    <h4 class="font-semibold text-lg mb-4 dark:text-white">Test Results</h4>
+                    <div class="bg-gray-50 p-4 rounded-md dark:bg-gray-700">
+                        <p class="text-sm text-gray-700 dark:text-gray-300"><b>Test Performed:</b> Independent T-test</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300"><b>Variables:</b> 'PurchaseAmount' vs 'CustomerSegment'</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mt-2"><b>T-statistic:</b> 2.54</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300"><b>P-value:</b> 0.012</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mt-2"><b>Conclusion:</b> With a p-value of 0.012 (less than 0.05), we reject the null hypothesis. There is a statistically significant difference in purchase amounts between customer segments.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Visualization Tab -->
             <div id="visualization" class="tab-content">
-                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+                <div class="card bg-white rounded-xl shadow p-6 mb-6 dark:bg-gray-800">
                     <div class="flex items-center mb-4">
-                        <div class="p-2 rounded-lg bg-yellow-100 text-yellow-600 mr-3 dark:bg-yellow-900 dark:text-yellow-300">
+                        <div class="p-2 rounded-lg bg-purple-100 text-purple-600 mr-3 dark:bg-purple-900 dark:text-purple-300">
                             <i class="fas fa-chart-bar"></i>
                         </div>
-                        <h3 class="font-semibold text-lg dark:text-white">Charts & Graphs</h3>
+                        <h3 class="font-semibold text-lg dark:text-white">Data Visualization</h3>
                     </div>
                     <p class="text-gray-600 mb-4 dark:text-gray-400">
-                        Create and explore visualizations to better understand your data.
+                        Create insightful charts and graphs to explore patterns, trends, and relationships in your data.
                     </p>
-                    <form class="space-y-4">
-                        <select class="w-full p-2 rounded border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <option>Bar Chart</option>
-                            <option>Line Chart</option>
-                            <option>Pie Chart</option>
-                            <option>Scatter Plot</option>
-                            <option>Histogram</option>
-                            <option>Box Plot</option>
-                        </select>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 dark:bg-yellow-700 dark:hover:bg-yellow-800">Generate Chart</button>
-                            <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">Save</button>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="dataset-select-viz" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Dataset:</label>
+                            <select id="dataset-select-viz" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Sales Data Q3.csv (Processed)</option>
+                                <option>Customer Demographics.xlsx (Processed)</option>
+                            </select>
                         </div>
-                    </form>
-                    <div class="mt-6">
-                        <h4 class="font-semibold mb-2 dark:text-white">Recent Visualizations</h4>
-                        <ul class="list-disc ml-6 text-gray-600 dark:text-gray-400">
-                            <li>Sales by Region (Bar Chart)</li>
-                            <li>Customer Age Distribution (Histogram)</li>
-                            <li>Income vs. Spending (Scatter Plot)</li>
-                        </ul>
+
+                        <div class="form-group">
+                            <label for="chart-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Chart Type:</label>
+                            <select id="chart-type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Bar Chart</option>
+                                <option>Line Chart</option>
+                                <option>Scatter Plot</option>
+                                <option>Histogram</option>
+                                <option>Pie Chart</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="x-axis" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">X-axis:</label>
+                            <select id="x-axis" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Choose a column</option>
+                                </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="y-axis" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Y-axis (Optional for some charts):</label>
+                            <select id="y-axis" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option>Choose a column</option>
+                                </select>
+                        </div>
+
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                            <i class="fas fa-chart-area mr-2"></i>Generate Chart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
+                    <h4 class="font-semibold text-lg mb-4 dark:text-white">Generated Chart</h4>
+                    <div class="chart-container border border-gray-200 rounded-md p-4 dark:border-gray-700">
+                        <p class="text-center text-gray-500 dark:text-gray-400">Your chart will appear here after generation.</p>
+                        <canvas id="myChart" class="w-full h-full"></canvas>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
 
-
-            <!-- Profile Tab -->
             <div id="profile" class="tab-content">
                 <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
-                    <div class="flex items-center mb-6">
-                        <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600 mr-3 dark:bg-indigo-900 dark:text-indigo-300">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 rounded-lg bg-green-100 text-green-600 mr-3 dark:bg-green-900 dark:text-green-300">
                             <i class="fas fa-user"></i>
                         </div>
-                        <h3 class="font-semibold text-lg dark:text-white">Profile</h3>
+                        <h3 class="font-semibold text-lg dark:text-white">User Profile</h3>
                     </div>
-                    
-                    <div class="flex flex-col md:flex-row gap-8">
-                        <div class="w-full md:w-1/3">
-                            <div class="flex flex-col items-center">
-                                <div class="relative mb-4">
-                                    <div id="profile-preview" class="w-32 h-32 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
-                                        <i class="fas fa-user text-4xl text-gray-400 dark:text-gray-500" id="profile-placeholder"></i>
-                                    </div>
-                                    <div class="file-upload mt-4">
-                                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800 w-full">
-                                            <i class="fas fa-upload mr-2"></i>Upload Photo
-                                        </button>
-                                        <input type="file" id="profile-upload" class="file-upload-input" accept="image/*">
-                                    </div>
-                                    <div class="text-center mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                        JPG, GIF or PNG. Max size 2MB
-                                    </div>
-                                </div>
+                    <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
+                        <div class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-indigo-200 dark:border-indigo-700">
+                            <img id="profile-picture" src="https://via.placeholder.com/150" alt="Profile Picture" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                                <label for="profile-picture-upload" class="text-white text-xl cursor-pointer">
+                                    <i class="fas fa-camera"></i>
+                                    <input type="file" id="profile-picture-upload" accept="image/*" class="hidden">
+                                </label>
                             </div>
                         </div>
-                        
-                        <div class="w-full md:w-2/3">
-                            <form id="profile-form" class="space-y-4">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">First Name</label>
-                                        <input type="text" id="first-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Last Name</label>
-                                        <input type="text" id="last-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Email</label>
-                                    <input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Bio</label>
-                                    <textarea id="bio" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
-                                </div>
-                                <div class="flex justify-end">
-                                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
-                                        Save Changes
-                                    </button>
-                                </div>
-                            </form>
+                        <div class="flex-1 space-y-3 text-center md:text-left">
+                            <h4 class="text-xl font-bold dark:text-white" id="profile-username">John Doe</h4>
+                            <p class="text-gray-600 dark:text-gray-400" id="profile-email">john.doe@example.com</p>
+                            <p class="text-gray-600 dark:text-gray-400" id="profile-role">Data Analyst</p>
+                            <p class="text-gray-600 dark:text-gray-400" id="profile-bio">Passionate about data-driven insights and machine learning.</p>
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800" id="edit-profile-btn">
+                                <i class="fas fa-edit mr-2"></i>Edit Profile
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <div class="card bg-white rounded-xl shadow p-6 mt-6 dark:bg-gray-800">
+                    <h4 class="font-semibold text-lg mb-4 dark:text-white">Recent Projects</h4>
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <li class="flex items-center justify-between py-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-project-diagram text-blue-500 mr-3 dark:text-blue-400"></i>
+                                <span class="text-gray-700 font-medium dark:text-gray-300">Customer Churn Prediction</span>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Completed: 2 weeks ago</span>
+                        </li>
+                        <li class="flex items-center justify-between py-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-project-diagram text-purple-500 mr-3 dark:text-purple-400"></i>
+                                <span class="text-gray-700 font-medium dark:text-gray-300">Sales Forecasting Model</span>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Completed: 1 month ago</span>
+                        </li>
+                        </ul>
+                </div>
             </div>
 
-            <!-- Settings Tab -->
             <div id="settings" class="tab-content">
                 <div class="card bg-white rounded-xl shadow p-6 dark:bg-gray-800">
-                    <div class="flex items-center mb-6">
-                        <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600 mr-3 dark:bg-indigo-900 dark:text-indigo-300">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 rounded-lg bg-gray-100 text-gray-600 mr-3 dark:bg-gray-900 dark:text-gray-300">
                             <i class="fas fa-cog"></i>
                         </div>
-                        <h3 class="font-semibold text-lg dark:text-white">Settings</h3>
+                        <h3 class="font-semibold text-lg dark:text-white">Application Settings</h3>
                     </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="md:col-span-2">
-                            <form id="settings-form" class="space-y-6">
-                                <div class="form-group">
-                                    <h4 class="font-semibold text-md mb-4 dark:text-white">Account Settings</h4>
-                                    <div class="space-y-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Username</label>
-                                            <input type="text" id="username" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Current Password</label>
-                                            <input type="password" id="current-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">New Password</label>
-                                            <input type="password" id="new-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Confirm New Password</label>
-                                            <input type="password" id="confirm-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <h4 class="font-semibold text-md mb-4 dark:text-white">Notification Preferences</h4>
-                                    <div class="space-y-3">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="email-notifications" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="email-notifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Email Notifications</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="push-notifications" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600" checked>
-                                            <label for="push-notifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Push Notifications</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="sms-notifications" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="sms-notifications" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">SMS Notifications</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex justify-end">
-                                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
-                                        Save Settings
-                                    </button>
-                                </div>
-                            </form>
+                    <form class="settings-form space-y-6">
+                        <div class="form-group">
+                            <label for="app-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Application Name</label>
+                            <input type="text" id="app-name" value="DataVista" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         </div>
-                        
-                        <div class="md:col-span-1">
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h4 class="font-semibold text-md mb-4 dark:text-white">Account Security</h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Two-factor authentication adds an extra layer of security to your account.</p>
-                                        <button class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800">
-                                            Enable 2FA
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Connected devices and active sessions.</p>
-                                        <button class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">
-                                            Manage Devices
-                                        </button>
-                                    </div>
-                                    <div class="pt-4 border-t dark:border-gray-600">
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Permanently delete your account and all associated data.</p>
-                                        <button id="delete-account-btn" class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800">
-                                            Delete Account
-                                        </button>
-                                    </div>
-                                </div>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Default Theme</label>
+                            <div class="mt-1 flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-indigo-600 dark:text-indigo-400" name="theme" value="light" checked>
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">Light</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-indigo-600 dark:text-indigo-400" name="theme" value="dark">
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">Dark</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-indigo-600 dark:text-indigo-400" name="theme" value="system">
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">System</span>
+                                </label>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="form-group">
+                            <label for="notification-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Notification Email</label>
+                            <input type="email" id="notification-email" value="notifications@datavista.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="data-retention" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Data Retention Policy (days)</label>
+                            <input type="number" id="data-retention" value="90" min="7" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Enable Two-Factor Authentication</label>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
+                                <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Enabled</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
+                            <i class="fas fa-save mr-2"></i>Save Settings
+                        </button>
+                    </form>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Auth Modals -->
-    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl p-6 w-96 dark:bg-gray-800">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold dark:text-white" id="auth-modal-title">Login to DataVista</h3>
-                <button id="close-auth-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div id="auth-tabs" class="flex border-b mb-4 dark:border-gray-700">
-                <button class="auth-tab-btn px-4 py-2 text-indigo-700 border-b-2 border-indigo-600 font-semibold focus:outline-none dark:text-indigo-400 dark:border-indigo-400" data-auth-tab="login">
-                    Login
-                </button>
-                <button class="auth-tab-btn px-4 py-2 text-gray-600 hover:text-indigo-700 focus:outline-none dark:text-gray-400 dark:hover:text-indigo-400" data-auth-tab="signup">
-                    Sign Up
-                </button>
-            </div>
-            
-            <form id="login-form" class="auth-form">
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Email</label>
-                    <input type="email" id="login-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Password</label>
-                    <input type="password" id="login-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-700 dark:hover:bg-indigo-800">
-                    Login
-                </button>
-                <div class="mt-2 text-right">
-                    <a href="#" id="forgot-password-link" class="text-sm text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300">Forgot password?</a>
-                </div>
-            </form>
-            
-            <form id="signup-form" class="auth-form hidden">
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">First Name</label>
-                        <input type="text" id="signup-firstname" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Last Name</label>
-                        <input type="text" id="signup-lastname" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Email</label>
-                    <input type="email" id="signup-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Password</label>
-                    <input type="password" id="signup-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Confirm Password</label>
-                    <input type="password" id="signup-confirm-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-700 dark:hover:bg-indigo-800">
-                    Create Account
-                </button>
-            </form>
-            
-            <form id="forgot-password-form" class="auth-form hidden">
-                <div class="mb-6">
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Enter your email address and we'll send you a link to reset your password.</p>
-                    <label class="block text-gray-700 text-sm font-medium mb-1 dark:text-gray-300">Email</label>
-                    <input type="email" id="reset-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-700 dark:hover:bg-indigo-800">
-                    Send Reset Link
-                </button>
-                <div class="mt-4 text-center">
-                    <a href="#" id="back-to-login-link" class="text-sm text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300">Back to login</a>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Delete Account Confirmation Modal -->
-    <div id="delete-account-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl p-6 w-96 dark:bg-gray-800">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold dark:text-white">Confirm Account Deletion</h3>
-                <button id="close-delete-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="mb-6">
-                <p class="text-gray-700 dark:text-gray-300 mb-4">Are you sure you want to delete your account? This action cannot be undone.</p>
-                <p class="text-gray-700 dark:text-gray-300">All your data will be permanently removed from our servers.</p>
-            </div>
-            <div class="flex justify-end space-x-3">
-                <button id="cancel-delete-btn" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
-                    Cancel
-                </button>
-                <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800">
-                    Delete Account
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // User data structure
-        let currentUser = {
-            id: null,
-            firstName: '',
-            lastName: '',
-            email: '',
-            username: '',
-            role: 'Guest',
-            profileImage: null,
-            bio: '',
-            settings: {
-                darkMode: false,
-                emailNotifications: false,
-                pushNotifications: true,
-                smsNotifications: false
-            }
-        };
-
-        // Sample datasets for demonstration
-        let userDatasets = [];
-        let userModels = [];
-        let userVisualizations = [];
-
-        // DOM Elements
-        const html = document.documentElement;
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const authModal = document.getElementById('auth-modal');
-        const authModalTitle = document.getElementById('auth-modal-title');
-        const closeAuthModal = document.getElementById('close-auth-modal');
-        const authTabs = document.querySelectorAll('.auth-tab-btn');
-        const authForms = document.querySelectorAll('.auth-form');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const forgotPasswordForm = document.getElementById('forgot-password-form');
-        const forgotPasswordLink = document.getElementById('forgot-password-link');
-        const backToLoginLink = document.getElementById('back-to-login-link');
-        const logoutBtn = document.getElementById('logout-btn');
-        const deleteAccountBtn = document.getElementById('delete-account-btn');
-        const deleteAccountModal = document.getElementById('delete-account-modal');
-        const closeDeleteModal = document.getElementById('close-delete-modal');
-        const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-        const tabLinks = document.querySelectorAll('.tab-link');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const pageTitle = document.getElementById('page-title');
-        const usernameDisplay = document.getElementById('username-display');
-        const userRoleDisplay = document.getElementById('user-role-display');
-        const profileImgContainer = document.getElementById('profile-img-container');
-        const profileIcon = document.getElementById('profile-icon');
-        const profileUpload = document.getElementById('profile-upload');
-        const profilePreview = document.getElementById('profile-preview');
-        const profilePlaceholder = document.getElementById('profile-placeholder');
-        const profileForm = document.getElementById('profile-form');
-        const settingsForm = document.getElementById('settings-form');
-
-        // Tab name to title mapping
-        const tabTitles = {
-            'dashboard': 'Dashboard',
-            'data-load': 'Data Loading',
-            'data-clean': 'Data Cleaning',
-            'preprocessing': 'Preprocessing',
-            'stats': 'Statistics',
-            'ml': 'Machine Learning',
-            'hypothesis': 'Hypothesis Testing',
-            'visualization': 'Charts & Graphs',
-            'profile': 'Profile',
-            'settings': 'Settings'
-        };
-
-        // Initialize the application
-        function initApp() {
-            // Check authentication status
-            checkAuthStatus();
-            
-            // Set up event listeners
-            setupEventListeners();
-            
-            // Load sample data if user is authenticated
-            if (currentUser.id) {
-                loadSampleData();
-            }
-        }
-
-        // Check authentication status
-        function checkAuthStatus() {
-            const savedUser = localStorage.getItem('datavista-currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                updateUIForAuthenticatedUser();
-            } else {
-                showAuthModal('login');
-            }
-        }
-
-        // Update UI for authenticated user
-        function updateUIForAuthenticatedUser() {
-            // Update user info in sidebar
-            usernameDisplay.textContent = currentUser.firstName ? `${currentUser.firstName} ${currentUser.lastName}` : currentUser.username;
-            userRoleDisplay.textContent = currentUser.role;
-            
-            // Update profile image
-            updateProfileImage();
-            
-            // Set dark mode if enabled
-            if (currentUser.settings.darkMode) {
-                html.classList.add('dark');
-                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                html.classList.remove('dark');
-                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-            
-            // Hide auth modal if shown
-            hideAuthModal();
-            
-            // Load profile data
-            loadProfileData();
-        }
-
-        // Update profile image display
-        function updateProfileImage() {
-            if (currentUser.profileImage) {
-                profileIcon.classList.add('hidden');
-                if (profileImgContainer.querySelector('img')) {
-                    profileImgContainer.querySelector('img').src = currentUser.profileImage;
-                } else {
-                    const img = document.createElement('img');
-                    img.src = currentUser.profileImage;
-                    img.className = 'profile-img';
-                    img.alt = 'Profile';
-                    profileImgContainer.appendChild(img);
-                }
-                
-                if (profilePreview.querySelector('img')) {
-                    profilePreview.querySelector('img').src = currentUser.profileImage;
-                    profilePlaceholder.classList.add('hidden');
-                }
-            } else {
-                profileIcon.classList.remove('hidden');
-                const img = profileImgContainer.querySelector('img');
-                if (img) img.remove();
-                
-                if (profilePreview.querySelector('img')) {
-                    profilePreview.querySelector('img').remove();
-                    profilePlaceholder.classList.remove('hidden');
-                }
-            }
-        }
-
-        // Load profile data into forms
-        function loadProfileData() {
-            document.getElementById('first-name').value = currentUser.firstName || '';
-            document.getElementById('last-name').value = currentUser.lastName || '';
-            document.getElementById('email').value = currentUser.email || '';
-            document.getElementById('bio').value = currentUser.bio || '';
-            document.getElementById('username').value = currentUser.username || '';
-            
-            // Set notification preferences
-            document.getElementById('email-notifications').checked = currentUser.settings.emailNotifications;
-            document.getElementById('push-notifications').checked = currentUser.settings.pushNotifications;
-            document.getElementById('sms-notifications').checked = currentUser.settings.smsNotifications;
-        }
-
-        // Load sample data for demonstration
-        function loadSampleData() {
-            userDatasets = [
-                { id: 1, name: 'Sales Data Q3.csv', type: 'CSV', date: '2023-10-15' },
-                { id: 2, name: 'Customer Demographics.xlsx', type: 'Excel', date: '2023-09-28' },
-                { id: 3, name: 'Survey_Responses.json', type: 'JSON', date: '2023-11-02' }
-            ];
-            
-            userModels = [
-                { id: 1, name: 'Random Forest', accuracy: 0.94, type: 'Classification', date: '2023-11-10' },
-                { id: 2, name: 'Linear Regression', accuracy: 0.89, type: 'Regression', date: '2023-11-05' },
-                { id: 3, name: 'K-Means', accuracy: 0.91, type: 'Clustering', date: '2023-11-08' }
-            ];
-            
-            userVisualizations = [
-                { id: 1, name: 'Sales by Region', type: 'Bar Chart', date: '2023-11-12' },
-                { id: 2, name: 'Customer Age Distribution', type: 'Histogram', date: '2023-11-11' },
-                { id: 3, name: 'Income vs. Spending', type: 'Scatter Plot', date: '2023-11-09' }
-            ];
-        }
-
-        // Set up event listeners
-        function setupEventListeners() {
-            // Dark mode toggle
-            darkModeToggle.addEventListener('click', toggleDarkMode);
-            
-            // Auth modal
-            closeAuthModal.addEventListener('click', hideAuthModal);
-            
-            // Auth tabs
-            authTabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    switchAuthTab(tab.dataset.authTab);
-                });
-            });
-            
-            // Forgot password link
-            forgotPasswordLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('forgot');
-            });
-            
-            // Back to login link
-            backToLoginLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchAuthTab('login');
-            });
-            
-            // Login form
-            loginForm.addEventListener('submit', handleLogin);
-            
-            // Signup form
-            signupForm.addEventListener('submit', handleSignup);
-            
-            // Forgot password form
-            forgotPasswordForm.addEventListener('submit', handleForgotPassword);
-            
-            // Logout button
-            logoutBtn.addEventListener('click', handleLogout);
-            
-            // Delete account button
-            deleteAccountBtn.addEventListener('click', () => {
-                deleteAccountModal.classList.remove('hidden');
-            });
-            
-            // Delete account modal buttons
-            closeDeleteModal.addEventListener('click', () => {
-                deleteAccountModal.classList.add('hidden');
-            });
-            
-            cancelDeleteBtn.addEventListener('click', () => {
-                deleteAccountModal.classList.add('hidden');
-            });
-            
-            confirmDeleteBtn.addEventListener('click', handleDeleteAccount);
-            
-            // Tab switching
-            tabLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    switchTab(link.dataset.tab);
-                });
-            });
-            
-            // Profile image upload
-            profileUpload.addEventListener('change', handleProfileImageUpload);
-            
-            // Profile form submission
-            profileForm.addEventListener('submit', handleProfileUpdate);
-            
-            // Settings form submission
-            settingsForm.addEventListener('submit', handleSettingsUpdate);
-        }
-
-        // Toggle dark mode
-        function toggleDarkMode() {
-            html.classList.toggle('dark');
-            const isDark = html.classList.contains('dark');
-            currentUser.settings.darkMode = isDark;
-            saveUserData();
-            darkModeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        }
-
-        // Show auth modal
-        function showAuthModal(tab = 'login') {
-            authModal.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-            switchAuthTab(tab);
-        }
-
-        // Hide auth modal
-        function hideAuthModal() {
-            authModal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        // Switch auth tab
-        function switchAuthTab(tab) {
-            // Update active tab
-            authTabs.forEach(t => {
-                if (t.dataset.authTab === tab) {
-                    t.classList.add('text-indigo-700', 'border-b-2', 'border-indigo-600', 'font-semibold', 'dark:text-indigo-400', 'dark:border-indigo-400');
-                    t.classList.remove('text-gray-600', 'dark:text-gray-400');
-                } else {
-                    t.classList.remove('text-indigo-700', 'border-b-2', 'border-indigo-600', 'font-semibold', 'dark:text-indigo-400', 'dark:border-indigo-400');
-                    t.classList.add('text-gray-600', 'dark:text-gray-400');
-                }
-            });
-            
-            // Update modal title
-            if (tab === 'login') {
-                authModalTitle.textContent = 'Login to DataVista';
-            } else if (tab === 'signup') {
-                authModalTitle.textContent = 'Create an Account';
-            } else if (tab === 'forgot') {
-                authModalTitle.textContent = 'Reset Your Password';
-            }
-            
-            // Show/hide forms
-            authForms.forEach(form => {
-                if (form.id === `${tab}-form`) {
-                    form.classList.remove('hidden');
-                } else {
-                    form.classList.add('hidden');
-                }
-            });
-        }
-
-        // Switch tab
-        function switchTab(tabId) {
-            // Update active tab in sidebar
-            tabLinks.forEach(link => {
-                if (link.dataset.tab === tabId) {
-                    link.classList.remove('text-gray-700', 'hover:bg-gray-100', 'dark:text-gray-300', 'dark:hover:bg-gray-700');
-                    link.classList.add('bg-indigo-50', 'text-indigo-700', 'font-medium', 'dark:bg-indigo-900/30', 'dark:text-indigo-300');
-                } else {
-                    link.classList.remove('bg-indigo-50', 'text-indigo-700', 'font-medium', 'dark:bg-indigo-900/30', 'dark:text-indigo-300');
-                    link.classList.add('text-gray-700', 'hover:bg-gray-100', 'dark:text-gray-300', 'dark:hover:bg-gray-700');
-                }
-            });
-            
-            // Show selected tab content
-            tabContents.forEach(content => content.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            
-            // Update page title
-            if (tabTitles[tabId]) {
-                pageTitle.textContent = tabTitles[tabId];
-            }
-        }
-
-        // Handle login
-        function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value.trim();
-            
-            // Simple validation
-            if (!email || !password) {
-                alert('Please enter both email and password.');
-                return;
-            }
-            
-            // Simulate login (in a real app, this would be an API call)
-            simulateLogin(email, password);
-        }
-
-        // Simulate login
-        function simulateLogin(email, password) {
-            // Show loading state
-            const submitBtn = loginForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Logging in...';
-            submitBtn.disabled = true;
-            
-            // Simulate API delay
-            setTimeout(() => {
-                // For demo purposes, accept any non-empty credentials
-                currentUser = {
-                    id: 'user_' + Math.random().toString(36).substr(2, 9),
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    email: email,
-                    username: email.split('@')[0],
-                    role: 'Premium Member',
-                    profileImage: null,
-                    bio: 'Data analyst with 5 years of experience',
-                    settings: {
-                        darkMode: false,
-                        emailNotifications: false,
-                        pushNotifications: true,
-                        smsNotifications: false
-                    }
-                };
-                
-                // Save user data
-                saveUserData();
-                
-                // Update UI
-                updateUIForAuthenticatedUser();
-                
-                // Reset form
-                loginForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                
-                // Show welcome message
-                alert(`Welcome back, ${currentUser.firstName}!`);
-            }, 1500);
-        }
-
-        // Handle signup
-        function handleSignup(e) {
-            e.preventDefault();
-            const firstName = document.getElementById('signup-firstname').value.trim();
-            const lastName = document.getElementById('signup-lastname').value.trim();
-            const email = document.getElementById('signup-email').value.trim();
-            const password = document.getElementById('signup-password').value.trim();
-            const confirmPassword = document.getElementById('signup-confirm-password').value.trim();
-            
-            // Validation
-            if (!firstName || !lastName || !email || !password || !confirmPassword) {
-                alert('Please fill in all fields.');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match.');
-                return;
-            }
-            
-            if (password.length < 8) {
-                alert('Password must be at least 8 characters long.');
-                return;
-            }
-            
-            // Simulate signup
-            simulateSignup(firstName, lastName, email, password);
-        }
-
-        // Simulate signup
-        function simulateSignup(firstName, lastName, email, password) {
-            // Show loading state
-            const submitBtn = signupForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Creating account...';
-            submitBtn.disabled = true;
-            
-            // Simulate API delay
-            setTimeout(() => {
-                currentUser = {
-                    id: 'user_' + Math.random().toString(36).substr(2, 9),
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    username: email.split('@')[0],
-                    role: 'Standard Member',
-                    profileImage: null,
-                    bio: '',
-                    settings: {
-                        darkMode: false,
-                        emailNotifications: true,
-                        pushNotifications: true,
-                        smsNotifications: false
-                    }
-                };
-                
-                // Save user data
-                saveUserData();
-                
-                // Update UI
-                updateUIForAuthenticatedUser();
-                
-                // Reset form
-                signupForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                
-                // Show welcome message
-                alert(`Welcome to DataVista, ${currentUser.firstName}!`);
-            }, 1500);
-        }
-
-        // Handle forgot password
-        function handleForgotPassword(e) {
-            e.preventDefault();
-            const email = document.getElementById('reset-email').value.trim();
-            
-            if (!email) {
-                alert('Please enter your email address.');
-                return;
-            }
-            
-            // Show loading state
-            const submitBtn = forgotPasswordForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Sending...';
-            submitBtn.disabled = true;
-            
-            // Simulate sending reset email
-            setTimeout(() => {
-                alert(`Password reset link has been sent to ${email}`);
-                forgotPasswordForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                switchAuthTab('login');
-            }, 1500);
-        }
-
-        // Handle logout
-        function handleLogout(e) {
-            e.preventDefault();
-            currentUser = {
-                id: null,
-                firstName: '',
-                lastName: '',
-                email: '',
-                username: '',
-                role: 'Guest',
-                profileImage: null,
-                bio: '',
-                settings: {
-                    darkMode: false,
-                    emailNotifications: false,
-                    pushNotifications: true,
-                    smsNotifications: false
-                }
-            };
-            
-            // Clear saved data
-            localStorage.removeItem('datavista-currentUser');
-            
-            // Reset UI
-            usernameDisplay.textContent = 'Guest User';
-            userRoleDisplay.textContent = 'Guest';
-            profileIcon.classList.remove('hidden');
-            const img = profileImgContainer.querySelector('img');
-            if (img) img.remove();
-            
-            // Show login modal
-            showAuthModal('login');
-        }
-
-        // Handle delete account
-        function handleDeleteAccount() {
-            // Show loading state
-            confirmDeleteBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Deleting...';
-            confirmDeleteBtn.disabled = true;
-            
-            // Simulate account deletion
-            setTimeout(() => {
-                // Clear user data
-                currentUser = {
-                    id: null,
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    username: '',
-                    role: 'Guest',
-                    profileImage: null,
-                    bio: '',
-                    settings: {
-                        darkMode: false,
-                        emailNotifications: false,
-                        pushNotifications: true,
-                        smsNotifications: false
-                    }
-                };
-                
-                // Clear saved data
-                localStorage.removeItem('datavista-currentUser');
-                
-                // Reset UI
-                usernameDisplay.textContent = 'Guest User';
-                userRoleDisplay.textContent = 'Guest';
-                profileIcon.classList.remove('hidden');
-                const img = profileImgContainer.querySelector('img');
-                if (img) img.remove();
-                
-                // Close modal and show login
-                deleteAccountModal.classList.add('hidden');
-                confirmDeleteBtn.innerHTML = 'Delete Account';
-                confirmDeleteBtn.disabled = false;
-                showAuthModal('login');
-                
-                alert('Your account has been deleted.');
-            }, 1500);
-        }
-
-        // Handle profile image upload
-        function handleProfileImageUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            // Check file type
-            if (!file.type.match('image.*')) {
-                alert('Please select an image file (JPG, PNG, GIF).');
-                return;
-            }
-            
-            // Check file size (max 2MB)
-            if (file.size > 2 * 1024 * 1024) {
-                alert('Image size must be less than 2MB.');
-                return;
-            }
-            
-            // Create preview
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                currentUser.profileImage = event.target.result;
-                saveUserData();
-                updateProfileImage();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Handle profile update
-        function handleProfileUpdate(e) {
-            e.preventDefault();
-            
-            currentUser.firstName = document.getElementById('first-name').value.trim();
-            currentUser.lastName = document.getElementById('last-name').value.trim();
-            currentUser.email = document.getElementById('email').value.trim();
-            currentUser.bio = document.getElementById('bio').value.trim();
-            
-            saveUserData();
-            updateUIForAuthenticatedUser();
-            
-            // Show success message
-            alert('Profile updated successfully!');
-        }
-
-        // Handle settings update
-        function handleSettingsUpdate(e) {
-            e.preventDefault();
-            
-            currentUser.username = document.getElementById('username').value.trim();
-            
-            // Update password if provided
-            const currentPassword = document.getElementById('current-password').value.trim();
-            const newPassword = document.getElementById('new-password').value.trim();
-            const confirmPassword = document.getElementById('confirm-password').value.trim();
-            
-            if (newPassword && newPassword !== confirmPassword) {
-                alert('New passwords do not match.');
-                return;
-            }
-            
-            if (newPassword && !currentPassword) {
-                alert('Please enter your current password to change it.');
-                return;
-            }
-            
-            // Update notification preferences
-            currentUser.settings.emailNotifications = document.getElementById('email-notifications').checked;
-            currentUser.settings.pushNotifications = document.getElementById('push-notifications').checked;
-            currentUser.settings.smsNotifications = document.getElementById('sms-notifications').checked;
-            
-            saveUserData();
-            updateUIForAuthenticatedUser();
-            
-            // Reset password fields
-            document.getElementById('current-password').value = '';
-            document.getElementById('new-password').value = '';
-            document.getElementById('confirm-password').value = '';
-            
-            // Show success message
-            alert('Settings updated successfully!');
-        }
-
-        // Save user data to localStorage
-        function saveUserData() {
-            localStorage.setItem('datavista-currentUser', JSON.stringify(currentUser));
-        }
-
-                // Update profile image display - modified to update both places
-        function updateProfileImage() {
-            if (currentUser.profileImage) {
-                // Update sidebar profile image
-                profileIcon.classList.add('hidden');
-                if (profileImgContainer.querySelector('img')) {
-                    profileImgContainer.querySelector('img').src = currentUser.profileImage;
-                } else {
-                    const img = document.createElement('img');
-                    img.src = currentUser.profileImage;
-                    img.className = 'profile-img';
-                    img.alt = 'Profile';
-                    profileImgContainer.appendChild(img);
-                }
-                
-                // Update profile page preview
-                if (profilePreview.querySelector('img')) {
-                    profilePreview.querySelector('img').src = currentUser.profileImage;
-                } else {
-                    const previewImg = document.createElement('img');
-                    previewImg.src = currentUser.profileImage;
-                    previewImg.className = 'w-full h-full object-cover';
-                    previewImg.alt = 'Profile Preview';
-                    profilePreview.appendChild(previewImg);
-                }
-                profilePlaceholder.classList.add('hidden');
-            } else {
-                // Clear sidebar profile image
-                profileIcon.classList.remove('hidden');
-                const img = profileImgContainer.querySelector('img');
-                if (img) img.remove();
-                
-                // Clear profile page preview
-                const previewImg = profilePreview.querySelector('img');
-                if (previewImg) previewImg.remove();
-                profilePlaceholder.classList.remove('hidden');
-            }
-        }
-
-        // Handle profile update - modified to include bio
-        function handleProfileUpdate(e) {
-            e.preventDefault();
-            
-            // Update user data
-            currentUser.firstName = document.getElementById('first-name').value.trim();
-            currentUser.lastName = document.getElementById('last-name').value.trim();
-            currentUser.email = document.getElementById('email').value.trim();
-            currentUser.bio = document.getElementById('bio').value.trim();
-            
-            // Update username display
-            usernameDisplay.textContent = currentUser.firstName ? `${currentUser.firstName} ${currentUser.lastName}` : currentUser.username;
-            
-            saveUserData();
-            updateProfileImage(); // Ensure profile image is updated
-            
-            // Show success message
-            alert('Profile updated successfully!');
-        }
-
-        // Handle profile image upload - modified to properly update both places
-        function handleProfileImageUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            // Check file type
-            if (!file.type.match('image.*')) {
-                alert('Please select an image file (JPG, PNG, GIF).');
-                return;
-            }
-            
-            // Check file size (max 2MB)
-            if (file.size > 2 * 1024 * 1024) {
-                alert('Image size must be less than 2MB.');
-                return;
-            }
-            
-            // Create preview
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                currentUser.profileImage = event.target.result;
-                saveUserData();
-                updateProfileImage(); // This will update both the sidebar and profile page
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Initialize the app
-        initApp();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
