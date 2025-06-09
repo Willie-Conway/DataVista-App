@@ -170,7 +170,4 @@ data-visa/
 **Willie Conway**
 [GitHub Profile](https://github.com/Willie-Conway) • [LinkedIn](https://linkedin.com/in/willieconway)
 
-```
 
-Let me know if you'd like to add [GIF demos](f), [badges for GitHub](f), or a [deployment guide](f).
-```
