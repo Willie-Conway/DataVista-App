@@ -47,8 +47,7 @@
 
 ## 📁 File Structure
 
-```
-
+```bash
 data-visa/
 ├── index.html      # Main HTML file
 ├── style.css       # Custom styles
@@ -72,10 +71,10 @@ data-visa/
 
 3. **Try Demo Credentials**:
 
-   ```
+```bash
    Email: test@example.com  
    Password: password123
-   ```
+```
 
 ---
 
