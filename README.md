@@ -64,17 +64,18 @@ data-visa/
    ```bash
    git clone https://github.com/your-username/data-visa.git
    cd data-visa
-  ```
+   ```
 
 2. **Run in Browser**:
    Just open `index.html` in any modern browser (Chrome, Firefox, Edge). No server needed!
 
 3. **Try Demo Credentials**:
 
-```bash
-   Email: test@example.com  
-   Password: password123
-```
+
+ ```bash
+Email: test@example.com  
+Password: password123
+ ```
 
 ---
 
