@@ -55,7 +55,7 @@ data-visa/
 ├── script.js       # JavaScript logic
 └── README.md       # Project documentation
 
-````
+```
 
 ---
 
@@ -65,7 +65,7 @@ data-visa/
    ```bash
    git clone https://github.com/your-username/data-visa.git
    cd data-visa
-````
+  ```
 
 2. **Run in Browser**:
    Just open `index.html` in any modern browser (Chrome, Firefox, Edge). No server needed!
