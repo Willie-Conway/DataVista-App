@@ -1,7 +1,7 @@
 
 # 🚀 DataVisa - Comprehensive Data Analysis Tool
 
-![DataVisa Screenshot]()
+![DataVisa Screenshot](https://github.com/Willie-Conway/DataVista-App/blob/62b22806b37009186f100531f50769ed98517397/assets/DataVista.png)
 
 **DataVisa** is a sleek, interactive, browser-based application for data analysis, visualization, and machine learning. Built with modern web technologies, it enables users to run full data workflows—right from their browser! 🌐📊🧠
 
